@@ -37,5 +37,23 @@ app.post('/signup', async (req, res) => {
     }
 });
 
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const query = 'SELECT * FROM users WHERE email = $1 AND password = $2';
+        const result = await pool.query(query, [email, password]);
+
+        if (result.rows.length > 0) {
+            res.status(200).json({ message: "Login realizado!", user: result.rows[0] });
+        } else {
+            res.status(401).json({ error: "Email ou senha incorretos." });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Erro no servidor." });
+    }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));

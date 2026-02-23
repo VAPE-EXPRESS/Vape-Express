@@ -870,6 +870,35 @@
             tooltip.classList.remove('clickable-active');
         }
 
+        // Lógica de Login Real
+        const loginForm = document.querySelector('form');
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('https://vape-express-4udz.onrender.com/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('Login successful!');
+                    window.location.href = 'Landing-Page.html';
+                } else {
+                    alert('Error: ' + (result.error || 'Invalid credentials'));
+                }
+            } catch (error) {
+                console.error('Connection error:', error);
+                alert('Server is temporarily unavailable.');
+            }
+        });
+
         // Magnetic Evasion + Iridescent Tracking
         document.addEventListener('mousemove', (e) => {
             const rect = logo.getBoundingClientRect();
