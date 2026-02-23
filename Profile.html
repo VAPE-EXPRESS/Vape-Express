@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>VAPE EXPRESS | Dashboard</title>
-    <link rel="icon" type="image/png" href="IMG/VAPE-EXPRESS.png">
+    <link rel="icon" type="image/svg+xml" href="SVG/VAPE-EXPRESS.svg">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
@@ -31,24 +31,101 @@
     <style type="text/tailwindcss">
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-            background-color: #0a0a0a;
+            background-color: #030303;
             color: #f1f5f9;
             overflow-x: hidden;
+            width: 100%;
+            position: relative;
         }
 
-        /* ── Dot Background ─────────────────────── */
-        .dot-bg::before {
+        html { overflow-x: hidden; }
+
+        /* ── Modern Background Strategy ─────────────────────── */
+        .background-base {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+            overflow: hidden;
+            background-color: #030303;
+            will-change: mask-image;
+            backface-visibility: hidden;
+        }
+
+        .background-base::before {
             content: "";
-            position: fixed; inset: 0;
-            pointer-events: none; z-index: 0;
+            position: absolute;
+            inset: 0;
+            opacity: 0.7; /* Increased from 0.45 for better idle visibility */
             background-image:
-                radial-gradient(ellipse 70% 60% at 85% 85%, rgba(242,127,13,0.18) 0%, transparent 70%),
-                radial-gradient(ellipse 50% 40% at 15% 15%, rgba(255,255,255,0.04) 0%, transparent 70%),
-                radial-gradient(circle at 50% 50%, rgba(242,127,13,0.06) 0%, transparent 80%);
-            -webkit-mask-image: radial-gradient(circle at 35% 35%, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 0.5px, transparent 1px);
-            -webkit-mask-size: 10px 10px;
-            mask-image: radial-gradient(circle at 35% 35%, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 0.5px, transparent 1px);
-            mask-size: 10px 10px;
+                /* Darker area behind DASHBOARD text - Adjusted for ML-64 */
+                radial-gradient(circle at 300px 80px, rgba(0, 0, 0, 0.95) 0%, transparent 15%),
+                /* 1. Top-left metallic beam */
+                linear-gradient(135deg,
+                    rgb(255, 255, 255) 0%,
+                    rgba(100, 105, 115, 0.25) 35%, /* Boosted alpha */
+                    transparent 60%),
+                /* 2. Top-right dim ambient (Larger & Spread more) */
+                radial-gradient(ellipse 80% 80% at 85% 15%,
+                    rgba(100, 100, 110, 0.8) 0%, /* Boosted alpha and lightness */
+                    transparent 90%),
+                /* 3. Bottom-right warm orange glow */
+                radial-gradient(ellipse 70% 70% at 80% 80%,
+                    rgb(255, 140, 0) 0%,
+                    transparent 80%),
+                /* 4. Bottom-left dim ambient (Larger & Spread more) */
+                radial-gradient(ellipse 80% 80% at 15% 85%,
+                    rgba(100, 100, 110, 0.8) 0%, /* Boosted alpha and lightness */
+                    transparent 90%),
+                /* 5. Center soft orange core */
+                radial-gradient(circle at 50% 50%,
+                    rgba(242, 127, 13, 0.6) 0%, transparent 80%); /* Boosted alpha */
+
+            -webkit-mask-image: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 0.5px, transparent 1px);
+            -webkit-mask-size: 11px 11px;
+            mask-image: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 0.5px, transparent 1px);
+            mask-size: 11px 11px;
+        }
+
+        .reveal-layer {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+            will-change: mask-image;
+            backface-visibility: hidden;
+        }
+
+        .reveal-layer::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                /* Same gradients as base but full brightness */
+                linear-gradient(135deg, rgb(255, 255, 255) 0%, rgba(100, 105, 115, 0.3) 35%, transparent 60%),
+                radial-gradient(ellipse 80% 80% at 85% 15%, rgba(120, 120, 130, 0.9) 0%, transparent 90%),
+                radial-gradient(ellipse 70% 70% at 80% 80%, rgb(255, 160, 20) 0%, transparent 80%), /* Brighter orange */
+                radial-gradient(ellipse 80% 80% at 15% 85%, rgba(120, 120, 130, 0.9) 0%, transparent 90%),
+                radial-gradient(circle at 50% 50%, rgba(242, 127, 13, 0.8) 0%, transparent 80%);
+
+            -webkit-mask-image: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 0.5px, transparent 1px);
+            -webkit-mask-size: 11px 11px;
+            mask-image: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 0.5px, transparent 1px);
+            mask-size: 11px 11px;
+        }
+
+        .reveal-layer {
+            -webkit-mask-image: radial-gradient(circle 140px at var(--light-x, -200px) var(--light-y, -200px), black 0%, transparent 100%);
+            mask-image: radial-gradient(circle 140px at var(--light-x, -200px) var(--light-y, -200px), black 0%, transparent 100%);
+        }
+
+        .vignette {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.5) 100%);
         }
 
         /* ── Glass Card ─────────────────────────── */
@@ -76,17 +153,45 @@
             display:flex;align-items:center;gap:12px;
             padding:12px 14px;border-radius:12px;
             font-size:13px;font-weight:500;
-            color:rgba(245,245,247,0.55);text-decoration:none;
+            color:rgba(245,245,247,0.45);text-decoration:none;
             transition:all 0.3s ease;
             position: relative; overflow: hidden;
-            background: rgba(14,14,14,0.7); backdrop-filter: blur(8px);
+            background: rgba(14,14,14,0.4); backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,0.06);
         }
-        .sidebar-link:hover, .sidebar-link.active { 
-            background: rgba(20,20,20,0.9); color: #F5F5F7; 
-            border: 1px solid rgba(255,255,255,0.15);
-            box-shadow: 0 0 15px rgba(255,255,255,0.05), inset 0 0 10px rgba(255,255,255,0.02);
+        
+        /* Hide sidebar scrollbar */
+        .sidebar-desktop nav::-webkit-scrollbar { display: none; }
+        .sidebar-desktop nav { -ms-overflow-style: none; scrollbar-width: none; }
+        .sidebar-link::after {
+            content: ""; position: absolute; inset: 0;
+            border-radius: inherit; padding: 1px;
+            background: radial-gradient(150px circle at var(--mx,-150px) var(--my,-150px), rgba(255,255,255,0.4), transparent 60%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out; mask-composite: exclude;
+            pointer-events: none; opacity: 0; transition: opacity 0.4s; z-index: 5;
         }
+        .sidebar-link:hover::after { opacity: 1; }
+        
+        .sidebar-link:hover { 
+            background: rgba(255,255,255,0.03); 
+            color: #F5F5F7; 
+            border: 1px solid rgba(255,255,255,0.12);
+        }
+        
+        /* Orange Active State for Navigation & Action Buttons */
+        .sidebar-link.active, .glass-card.active {
+            background: rgba(242, 127, 13, 0.08);
+            border-color: rgba(242, 127, 13, 0.3);
+            color: #f27f0d;
+        }
+        .sidebar-link.active::after, .glass-card.active::after {
+            background: radial-gradient(150px circle at var(--mx, 50%) var(--my, 50%), rgba(242, 127, 13, 0.4), transparent 60%);
+            opacity: 0.6;
+            transition: opacity 0.4s;
+        }
+        .sidebar-link.active:hover, .glass-card.active:hover { color: #f27f0d; }
 
         /* ── PFP Avatar (Sign-up style) ─────────── */
         .pfp-mini {
@@ -126,6 +231,29 @@
         .badge { display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em; }
         .material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; }
 
+        /* ── Universal Text Hover Logic ── */
+        h1, h2, h3, p, span, a, th, td, label, div {
+            transition: color 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
+        }
+        h1:hover, h2:hover, h3:hover, p:hover, span:hover, a:hover, th:hover, td:hover, label:hover {
+            opacity: 1 !important;
+            filter: brightness(1.25);
+            cursor: pointer;
+        }
+        /* Grey to White logic: targets the specific grey shade used across the UI */
+        .text-apple-gray:hover, 
+        [class*="opacity-"]:hover,
+        .text-white\/40:hover,
+        .text-white\/50:hover {
+             color: #ffffff !important;
+             filter: brightness(1); /* No extra filter needed once white */
+        }
+        /* Maintain specific brand colors while brightening */
+        .text-primary:hover {
+            color: #ff9d3d !important; /* Brighter Orange */
+            filter: brightness(1.1);
+        }
+
         /* ── Responsive ─────────────────────────── */
         @media (max-width: 767px) {
             .sidebar-desktop { display: none !important; }
@@ -138,7 +266,11 @@
     </style>
 </head>
 
-<body class="dot-bg font-display antialiased text-apple-gray">
+<body class="font-display antialiased text-apple-gray bg-[#030303]">
+    <!-- Background Layers -->
+    <div class="background-base"></div>
+    <div class="reveal-layer"></div>
+    <div class="vignette"></div>
 
     <!-- ══════════ SIDEBAR (Desktop) ══════════ -->
     <aside class="sidebar-desktop fixed left-0 top-0 h-full w-64 flex flex-col z-50 border-r border-white/[0.06]"
@@ -146,13 +278,13 @@
 
         <!-- Logo -->
         <div class="px-4 py-4 flex items-center gap-2.5 border-b border-white/[0.06]">
-            <img src="SVG/VAPE-EXPRESS.svg" alt="Logo" class="h-56 w-auto" onerror="this.style.display='none'">
+            <img src="SVG/VAPE-EXPRESS.svg" alt="Logo" class="h-48 w-auto" onerror="this.style.display='none'">
 
         </div>
 
         <!-- Nav -->
         <nav class="flex-1 px-3 py-6 flex flex-col justify-between overflow-y-auto">
-            <a href="Profile.html" class="sidebar-link active">
+            <a href="Profile.html" class="sidebar-link">
                 <span class="material-symbols-outlined text-[18px]">dashboard</span> Dashboard
             </a>
             <a href="Shop.html" class="sidebar-link">
@@ -197,9 +329,9 @@
                 <div class="flex items-center gap-3">
                     <h1 class="text-xl font-black text-white uppercase tracking-tight">Dashboard</h1>
                     <button
-                        class="glass-card w-7 h-7 rounded-lg flex items-center justify-center text-apple-gray hover:text-white transition-colors"
+                        class="glass-card w-9 h-9 rounded-xl flex items-center justify-center text-apple-gray hover:text-white transition-colors"
                         title="Edit Dashboard">
-                        <span class="material-symbols-outlined text-[14px]">edit</span>
+                        <span class="material-symbols-outlined text-[16px]">edit</span>
                     </button>
                 </div>
                 <div class="flex items-center gap-1.5 mt-1 text-[11px] text-apple-gray font-medium">
@@ -212,14 +344,14 @@
                         devices are synced.</a>
                 </div>
             </div>
-            <div class="flex gap-2">
+            <div class="flex gap-2 md:gap-5">
                 <button
                     class="glass-card w-9 h-9 rounded-xl flex items-center justify-center text-apple-gray hover:text-white transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">notifications</span>
+                    <span class="material-symbols-outlined text-[16px]">notifications</span>
                 </button>
                 <button
                     class="glass-card w-9 h-9 rounded-xl flex items-center justify-center text-apple-gray hover:text-white transition-colors">
-                    <span class="material-symbols-outlined text-[18px]">settings</span>
+                    <span class="material-symbols-outlined text-[16px]">settings</span>
                 </button>
             </div>
         </header>
@@ -506,11 +638,77 @@
     </nav>
 
     <script>
-        document.querySelectorAll('.glass-card').forEach(card => {
+        const revealLayer = document.querySelector('.reveal-layer');
+        let mouse = { x: -200, y: -200 };
+        let smoothedMouse = { x: -200, y: -200 };
+        const lerpFactor = 0.1;
+
+        document.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        // Prevent jumping when leaving page
+        document.addEventListener('mouseleave', () => {
+            mouse.x = -500; // Move light far away smoothly
+            mouse.y = -500;
+        });
+
+        function animateReveal() {
+            smoothedMouse.x += (mouse.x - smoothedMouse.x) * lerpFactor;
+            smoothedMouse.y += (mouse.y - smoothedMouse.y) * lerpFactor;
+
+            if (revealLayer) {
+                revealLayer.style.setProperty('--light-x', `${smoothedMouse.x}px`);
+                revealLayer.style.setProperty('--light-y', `${smoothedMouse.y}px`);
+            }
+            requestAnimationFrame(animateReveal);
+        }
+        animateReveal();
+
+        document.querySelectorAll('.glass-card, .sidebar-link').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const r = card.getBoundingClientRect();
                 card.style.setProperty('--mx', `${e.clientX - r.left}px`);
                 card.style.setProperty('--my', `${e.clientY - r.top}px`);
+            });
+        });
+
+        // ── Active State Management Logic ──
+
+        // 1. Sidebar: Auto-detect based on URL
+        const fileName = window.location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.sidebar-link').forEach(link => {
+            if (link.getAttribute('href') === fileName) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        // 2. Header: Dynamic selection (buttons in "that area")
+        const headerActionBtns = document.querySelectorAll('header button.glass-card');
+        headerActionBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent document click from firing
+                const wasActive = btn.classList.contains('active');
+
+                // Remove active from all
+                headerActionBtns.forEach(b => b.classList.remove('active'));
+
+                // Toggle current if it wasn't already active (exclusive selection)
+                if (!wasActive) {
+                    btn.classList.add('active');
+                }
+            });
+        });
+
+        // Click off logic: Return to normal when clicking anywhere else
+        document.addEventListener('click', (e) => {
+            headerActionBtns.forEach(btn => {
+                if (!btn.contains(e.target)) {
+                    btn.classList.remove('active');
+                }
             });
         });
     </script>
