@@ -1,0 +1,805 @@
+<!--
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  GLASS CARD TEMPLATE — Standalone Reference                                ║
+║                                                                            ║
+║  Contains ONLY:                                                            ║
+║    1. The 3D dot-matrix background (gradient-colored metallic spheres)      ║
+║    2. An empty glass card with reactive shimmer border (desktop mouse)      ║
+║    3. Mobile touch glow (bloom of white light on tap, UNDER child elements) ║
+║    4. Mobile auto-scanning flashlight (perimeter trace loop)               ║
+║                                                                            ║
+║  Everything is hyper-commented so any AI or developer can understand        ║
+║  and recreate each effect from scratch.                                     ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Glass Card Template</title>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         FONT STACK
+         Apple's system font stack for that premium SF Pro feel.
+         Falls back gracefully on all OS.
+    ═══════════════════════════════════════════════════════════════════ -->
+    <style>
+        /* ══════════════════════════════════════════════════════════════
+           RESET & BASE
+           ══════════════════════════════════════════════════════════════ */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #f1f5f9;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ══════════════════════════════════════════════════════════════
+           SECTION 1 — THE DOT-MATRIX BACKGROUND
+           ══════════════════════════════════════════════════════════════
+
+           HOW IT WORKS:
+           ─────────────
+           The .background container has TWO pseudo-elements:
+
+             ::before  →  The dots themselves (gradient colors + sphere mask)
+             ::after   →  A bottom fade that smoothly hides the lowest dots
+
+           TECHNIQUE: "Gradient-on-Dots"
+           ─────────────────────────────
+           Normally, a CSS dot pattern is a repeating radial-gradient.
+           But here, we do something different:
+
+             1. background-image  = Multiple large color gradients
+                                    (beams, glows, ambient lights)
+
+             2. mask-image         = A tiny repeating radial-gradient
+                                    that punches the gradients into dots
+
+           Result: The large gradients are VISIBLE ONLY through the dots.
+           Each dot inherits the color of whatever gradient it sits on.
+
+           THE 3D METALLIC SPHERE TRICK:
+           ─────────────────────────────
+           The mask uses `circle at 35% 35%` instead of `circle at 50% 50%`.
+           This shifts the "highlight" to the top-left of each dot,
+           mimicking a 3D metallic sphere with a light source above-left.
+           The mask fades from opaque center → 0.8 at 0.5px → transparent at 1px,
+           creating a soft, anti-aliased sphere edge.
+        ══════════════════════════════════════════════════════════════ */
+
+        .background {
+            background-color: #030303;
+            /* Near-black base */
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* ── ::before — THE DOT-MATRIX LAYER ──
+           This is a full-screen overlay. pointer-events: none so
+           clicks pass through to the card below.
+        */
+        .background::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            /* Covers entire parent */
+            pointer-events: none;
+            /* Ghost layer — non-interactive */
+            z-index: 0;
+            /* Behind everything */
+
+            /*
+            ── THE COLOR GRADIENTS ──
+            These are the "paint" that colors the dots.
+            Five layers stacked on top of each other:
+
+              Layer 1: Top-left white beam angled at 135° → metallic grey
+              Layer 2: Top-right dim ambient light
+              Layer 3: Bottom-right warm orange glow
+              Layer 4: Bottom-left dim ambient light
+              Layer 5: Center soft orange core
+
+            You can change these to any colors you want.
+            The dot mask will reveal them as colored spheres.
+            */
+            background-image:
+                /* Layer 1: Metallic beam from top-left corner */
+                linear-gradient(135deg,
+                    rgb(255, 255, 255) 0%,
+                    rgba(100, 105, 115, 0.15) 35%,
+                    transparent 60%),
+                /* Layer 2: Dim grey spotlight at top-right */
+                radial-gradient(ellipse 50% 50% at 80% 20%,
+                    rgba(60, 60, 65, 0.5) 0%,
+                    transparent 80%),
+                /* Layer 3: Warm orange glow at bottom-right */
+                radial-gradient(ellipse 70% 70% at 80% 80%,
+                    rgb(255, 140, 0) 0%,
+                    transparent 80%),
+                /* Layer 4: Dim grey ambient at bottom-left */
+                radial-gradient(ellipse 50% 50% at 20% 80%,
+                    rgba(60, 60, 65, 0.5) 0%,
+                    transparent 80%),
+                /* Layer 5: Soft orange core at center */
+                radial-gradient(circle at 50% 50%,
+                    rgba(242, 127, 13, 0.4) 0%,
+                    transparent 80%);
+
+            /*
+            ── THE SPHERE DOT MASK ──
+
+            This is where the magic happens.
+            A repeating mask that punches the gradients into tiny dots.
+
+            Breakdown of: radial-gradient(circle at 35% 35%, ...)
+            ┌─────────────────────────────────────────────────────┐
+            │ "circle at 35% 35%"                                 │
+            │   The highlight is offset to top-left of each dot.  │
+            │   This mimics light hitting a metallic sphere       │
+            │   from the top-left direction.                      │
+            │                                                     │
+            │ Color stops:                                        │
+            │   0px    → rgba(255,255,255,1)    = fully opaque    │
+            │   0.5px  → rgba(255,255,255,0.8)  = slightly soft   │
+            │   1px    → transparent             = dot edge fades  │
+            │                                                     │
+            │ mask-size: 10px 10px                                │
+            │   Each dot occupies a 10×10 cell. The dot itself    │
+            │   is only ~2px wide (the gradient), so there's      │
+            │   ~8px of empty space between dots.                 │
+            │                                                     │
+            │ The mask REPEATS automatically to fill the screen.  │
+            └─────────────────────────────────────────────────────┘
+            */
+            -webkit-mask-image: radial-gradient(circle at 35% 35%,
+                    rgba(255, 255, 255, 1) 0%,
+                    rgba(255, 255, 255, 0.8) 0.5px,
+                    transparent 1px);
+            -webkit-mask-size: 10px 10px;
+
+            /* Standard (non-webkit) mask for Firefox/future browsers */
+            mask-image: radial-gradient(circle at 35% 35%,
+                    rgba(255, 255, 255, 1) 0%,
+                    rgba(255, 255, 255, 0.8) 0.5px,
+                    transparent 1px);
+            mask-size: 10px 10px;
+        }
+
+        /* ── ::after — THE BOTTOM FADE ──
+           A gradient overlay that fades the bottom 25% of the page
+           from transparent → the same #030303 as the background.
+           This smoothly "dissolves" the dots at the bottom edge.
+        */
+        .background::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(to bottom, transparent 75%, #030303 100%);
+            z-index: 1;
+        }
+
+
+        /* ══════════════════════════════════════════════════════════════
+           SECTION 2 — THE GLASS CARD
+           ══════════════════════════════════════════════════════════════
+
+           HOW IT WORKS:
+           ─────────────
+           The card is a semi-transparent dark container with
+           backdrop-filter: blur() for the frosted glass effect.
+
+           It has a VERY dim static border (rgba white at 4% opacity)
+           that's barely visible — just enough to define the card edge
+           in the darkest scenarios.
+
+           The REAL border effect is the ::after shimmer (see Section 3).
+        ══════════════════════════════════════════════════════════════ */
+
+        .glass-card {
+            /*
+            ── GLASS BACKGROUND ──
+            rgba(15, 15, 15, 0.35) = near-black at 35% opacity.
+            The 0.35 transparency lets the dot-matrix background
+            subtly bleed through, creating depth.
+            */
+            background: rgba(15, 15, 15, 0.35);
+
+            /*
+            ── FROSTED GLASS BLUR ──
+            blur(5px) smudges the background behind the card.
+            This is the "frosted glass" effect.
+            -webkit- prefix required for Safari/iOS.
+            */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+
+            /*
+            ── STATIC BORDER ──
+            Just barely visible. Acts as a fallback when the
+            shimmer effect isn't active (mouse far away).
+            */
+            border: 1px solid rgba(255, 255, 255, 0.04);
+
+            /* position: relative needed for ::after and .touch-glow positioning */
+            position: relative;
+
+            /* Card dimensions — adjust these for your layout */
+            width: 100%;
+            max-width: 450px;
+            min-height: 400px;
+            border-radius: 5px;
+            padding: 40px;
+
+            /* Keep card above the dot-matrix background (z-index 0 and 1) */
+            z-index: 10;
+
+            /* overflow: hidden clips the touch-glow so it doesn't bleed
+               outside the card's rounded corners */
+            overflow: hidden;
+        }
+
+
+        /* ══════════════════════════════════════════════════════════════
+           SECTION 3 — REACTIVE SHIMMER BORDER (Desktop Mouse)
+           ══════════════════════════════════════════════════════════════
+
+           HOW IT WORKS:
+           ─────────────
+           A ::after pseudo-element covers the entire card.
+           It contains a radial-gradient centered at the mouse position.
+           The gradient is a bright white bloom that fades to transparent.
+
+           THE MASK TRICK (most important concept):
+           ─────────────────────────────────────────
+           We want the gradient to appear ONLY on the border, not inside.
+           Two identical masks are applied:
+             Mask A: covers the content-box (inner area)
+             Mask B: covers the border-box (entire element)
+
+           mask-composite: exclude → subtracts A from B.
+           Result: only the "padding" zone remains visible.
+
+           Since padding is set to 1px, the gradient appears
+           as a 1px-thick border glow, nothing more.
+
+           ┌───────────────────────────────────────────────────────┐
+           │                                                       │
+           │   ┌──── BORDER-BOX (Mask B) = everything ─────┐      │
+           │   │                                            │      │
+           │   │  ┌── CONTENT-BOX (Mask A) = inner area ─┐ │      │
+           │   │  │                                       │ │      │
+           │   │  │   This inner area is SUBTRACTED.      │ │      │
+           │   │  │   So only the 1px padding ring        │ │      │
+           │   │  │   between them stays visible.         │ │      │
+           │   │  │                                       │ │      │
+           │   │  └───────────────────────────────────────┘ │      │
+           │   │                                            │      │
+           │   └────────────────────────────────────────────┘      │
+           │                                                       │
+           │   Visible = the 1px gap between inner and outer mask  │
+           │   This gap shows the radial-gradient = the shimmer    │
+           └───────────────────────────────────────────────────────┘
+
+           JAVASCRIPT ROLE:
+           ──────────────
+           JS tracks mousemove on the document and writes two
+           CSS custom properties onto the card element:
+             --mouse-x: horizontal offset from card's left edge (px)
+             --mouse-y: vertical offset from card's top edge (px)
+
+           The radial-gradient reads these to center the glow
+           wherever the mouse currently is.
+        ══════════════════════════════════════════════════════════════ */
+
+        .glass-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            /* Cover entire card */
+            border-radius: inherit;
+            /* Match card's rounded corners exactly */
+            pointer-events: none;
+            /* Ghost layer — clicks pass through */
+
+            /*
+            ── BORDER THICKNESS ──
+            This "padding" defines how thick the shimmer border is.
+            1px = razor thin. Try 2px for a thicker glow band.
+            */
+            padding: 1px;
+
+            /*
+            ── THE SHIMMER GRADIENT ──
+            A 500px white circle centered at the mouse position.
+
+            var(--mouse-x, -500px) → default position is offscreen (-500px)
+            so the gradient is invisible until JS starts tracking.
+
+            rgba(255, 255, 255, 0.6) → the glow color (white at 60%).
+            transparent 40% → the glow fades to nothing at 40% of the 500px radius,
+            so the effective visible radius is ~200px.
+
+            ┌──────────────────────────────────────┐
+            │  Tune these:                          │
+            │  • 500px → overall reach of gradient  │
+            │  • 0.6 opacity → brightness           │
+            │  • 40% → how fast it fades out         │
+            └──────────────────────────────────────┘
+            */
+            background: radial-gradient(500px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+                    rgba(255, 255, 255, 0.6),
+                    transparent 40%);
+
+            /*
+            ── THE MASK EXCLUSION TRICK ──
+            Two identical white masks layered:
+              1st: linear-gradient(#fff 0 0) → applied to content-box
+              2nd: linear-gradient(#fff 0 0) → applied to border-box (default)
+
+            mask-composite: exclude → subtracts the content-box area,
+            leaving only the padding (1px border ring) visible.
+
+            WHY "linear-gradient(#fff 0 0)"?
+            This is a solid white "gradient" (from white to white).
+            It's a CSS trick to create a full-coverage mask.
+            Using just "#fff" wouldn't work because mask-image
+            only accepts gradient or url() values.
+            */
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+
+            /*
+            ── COMPOSITE MODE ──
+            CRITICAL: Safari uses "destination-out" (old spec).
+            Firefox/Chrome use "exclude" (new spec).
+            You MUST include both or it will break on Safari/iOS.
+            */
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+
+            /*
+            ── VISIBILITY CONTROL ──
+            Default opacity is 0 (hidden). The hover rule below
+            sets it to 1 so the shimmer only appears when hovering.
+            On mobile, a media query forces opacity: 1 permanently
+            so the auto-scanning flashlight effect is always visible.
+            */
+            opacity: var(--shimmer-opacity, 0);
+            transition: opacity 0.5s ease;
+            z-index: 50;
+            /* Above all card content edges */
+        }
+
+        /* Desktop: show shimmer only on hover */
+        .glass-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Mobile: always show shimmer (so the auto-scanning flashlight works) */
+        @media (max-width: 768px) {
+            .glass-card::after {
+                opacity: 1;
+            }
+        }
+
+
+        /* ══════════════════════════════════════════════════════════════
+           SECTION 4 — MOBILE TOUCH GLOW
+           ══════════════════════════════════════════════════════════════
+
+           HOW IT WORKS:
+           ─────────────
+           A circular div inside the card, absolutely positioned.
+           When the user taps the card on mobile:
+
+             1. JS positions this div at the touch coordinates
+             2. Adds .active class → it blooms from 220px to 280px
+                with instant opacity (0.1s ease-in)
+             3. After 900ms, JS removes .active → it fades out slowly
+                (1.5s ease-out from the inactive state's transition)
+
+           Z-INDEX LAYERING (CRITICAL):
+           ─────────────────────────────
+           z-index: 1 keeps the glow BELOW all interactive elements
+           (buttons, inputs, links) which sit at z-index: auto (≈ 0
+           in stacking context, but positioned elements beat it).
+
+           Since the card has overflow: hidden, the glow is clipped
+           to the card's boundaries and rounded corners.
+
+           The "filter: blur(18px)" makes the glow diffused and soft,
+           like a torch behind frosted glass.
+
+           TOUCH GUARD:
+           ─────────────
+           JS only triggers the glow if the user taps the bare card.
+           If they tap a button or input inside, it does nothing.
+           This prevents the glow from appearing under interactive taps.
+        ══════════════════════════════════════════════════════════════ */
+
+        .touch-glow {
+            pointer-events: none;
+            /* Ghost element — no interaction */
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            /* Perfect circle */
+
+            /*
+            ── THE GLOW GRADIENT ──
+            A radial gradient from:
+              Center: white at 22% opacity (bright core)
+              45%:    white at 7% opacity (soft halo)
+              70%:    transparent (fades to nothing)
+
+            The "filter: blur(18px)" further softens this.
+            */
+            background: radial-gradient(circle,
+                    rgba(255, 255, 255, 0.22) 0%,
+                    rgba(255, 255, 255, 0.07) 45%,
+                    transparent 70%);
+
+            /* Center the glow on the touch point (JS sets left/top) */
+            transform: translate(-50%, -50%);
+
+            /*
+            ── Z-INDEX: THE KEY TO "UNDER BUTTONS" ──
+            z-index: 1 keeps this BELOW all child elements.
+            Buttons, inputs, links all render above z-index: 1
+            because they're later in the DOM or have higher stacking.
+            */
+            z-index: 1;
+
+            /* Hidden by default */
+            opacity: 0;
+
+            /*
+            ── INACTIVE TRANSITION (FADE OUT) ──
+            When .active is REMOVED, this transition takes over:
+              opacity: 1.5s ease-out → slow, graceful fade-out
+              width/height: 0.25s → gentle shrink back to 220px
+            */
+            transition: opacity 1.5s ease-out, width 0.25s ease, height 0.25s ease;
+
+            /* Diffusion blur — makes the glow soft and organic */
+            filter: blur(18px);
+        }
+
+        .touch-glow.active {
+            opacity: 1;
+            width: 280px;
+            /* Blooms from 220 → 280px */
+            height: 280px;
+
+            /*
+            ── ACTIVE TRANSITION (FADE IN) ──
+            When .active is ADDED, this transition takes over:
+              opacity: 0.1s ease-in → instant appear (0.1 seconds)
+              width/height: 0.25s → quick bloom
+
+            The key asymmetry:
+              Appear = 0.1s (snappy)
+              Disappear = 1.5s (from the inactive rule — lingers gracefully)
+            */
+            transition: opacity 0.1s ease-in, width 0.25s ease, height 0.25s ease;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         THE BACKGROUND
+         The .background div provides the dot-matrix via ::before
+         and the bottom fade via ::after.
+         Everything inside sits on top of the dots.
+    ═══════════════════════════════════════════════════════════ -->
+    <div class="background">
+
+        <!-- ═══════════════════════════════════════════════════════
+             THE GLASS CARD
+             id="glass-card" → JS uses this to:
+               1. Track mouse position for shimmer border (desktop)
+               2. Handle touchstart for touch glow (mobile)
+               3. Run the auto-scanning flashlight (mobile)
+
+             overflow: hidden → clips touch-glow to card boundary
+        ═══════════════════════════════════════════════════════ -->
+        <div id="glass-card" class="glass-card">
+
+            <!--
+            ═══════════════════════════════════════════════════════
+            TOUCH GLOW ELEMENT
+            This is the white bloom that appears on mobile taps.
+
+            It sits INSIDE the card so overflow: hidden clips it.
+            z-index: 1 keeps it UNDER all interactive children.
+
+            JS positions it at the touch point and toggles .active.
+            ═══════════════════════════════════════════════════════
+            -->
+            <div class="touch-glow" id="touch-glow"></div>
+
+            <!--
+            ═══════════════════════════════════════════════════════
+            YOUR CONTENT GOES HERE
+
+            Add buttons, inputs, text, images — anything.
+            The touch glow will appear UNDER all of them
+            because .touch-glow has z-index: 1.
+
+            Make sure interactive children have position: relative
+            if you need them to reliably stack above the glow.
+            ═══════════════════════════════════════════════════════
+            -->
+
+        </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         JAVASCRIPT
+         ═══════════════════════════════════════════════════════════════
+
+         Three independent systems, all in this one script block:
+
+           1. DESKTOP SHIMMER — mousemove updates --mouse-x/--mouse-y
+           2. MOBILE TOUCH GLOW — touchstart places and animates the glow
+           3. MOBILE AUTO-FLASHLIGHT — requestAnimationFrame traces the
+              card perimeter with a fake "mouse" position
+
+         All three write to the SAME two CSS custom properties:
+           --mouse-x and --mouse-y
+
+         The CSS doesn't know or care what's driving these values.
+         Desktop uses real mouse coords.
+         Mobile uses the auto-scanning loop.
+         Both produce the shimmer border effect.
+    ═══════════════════════════════════════════════════════════════ -->
+    <script>
+        const card = document.getElementById('glass-card');
+        const touchGlow = document.getElementById('touch-glow');
+
+
+        /* ══════════════════════════════════════════════════════════
+           SYSTEM 1: DESKTOP SHIMMER BORDER
+           ══════════════════════════════════════════════════════════
+
+           Listens to mousemove on the ENTIRE document (not just the card).
+           This means the shimmer responds even when the mouse approaches
+           from outside — the gradient appears at the nearest edge.
+
+           Only runs on desktop (screen > 768px width).
+
+           WHAT IT DOES:
+           ─────────────
+           1. Gets the card's bounding rectangle (position + size)
+           2. Computes the mouse position relative to the card:
+              x = e.clientX - rect.left
+              y = e.clientY - rect.top
+           3. Writes these as CSS custom properties on the card element
+
+           The ::after pseudo-element's radial-gradient reads these
+           properties and centers the white bloom at that position.
+
+           WHEN MOUSE IS OUTSIDE THE CARD:
+           ────────────────────────────────
+           The x/y values can be negative or larger than the card size.
+           That's fine — the gradient just centers offscreen, and only
+           the portion that overlaps the border ring is visible.
+           This creates the "approaching glow" effect along edges.
+        ══════════════════════════════════════════════════════════ */
+
+        document.addEventListener('mousemove', (e) => {
+            if (window.innerWidth > 768) {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            }
+        });
+
+
+        /* ══════════════════════════════════════════════════════════
+           SYSTEM 2: MOBILE TOUCH GLOW
+           ══════════════════════════════════════════════════════════
+
+           Listens to touchstart on the card element.
+
+           TOUCH GUARD (preventing glow under buttons):
+           ─────────────────────────────────────────────
+           Before showing the glow, we check if the user tapped the
+           bare card surface vs. a child element (button, input, link).
+
+           e.target returns the EXACT element that was touched.
+           We only proceed if it's the card itself or the glow div.
+           If the user tapped a button inside the card, e.target will
+           be that button, and we skip the glow entirely.
+
+           This prevents the glow from bleeding under interactive elements
+           when the user is trying to tap them.
+
+           THE BLOOM ANIMATION:
+           ─────────────────────
+           1. Position the glow div at the touch coordinates (relative to card)
+           2. Remove .active class (in case it's still on from a previous tap)
+           3. Force a reflow with void element.offsetWidth
+              (this restarts the CSS transition so it plays from the beginning)
+           4. Add .active class → triggers 0.1s fade-in + size bloom
+           5. Also update --mouse-x/--mouse-y so the shimmer border
+              lights up at the same point
+           6. After 900ms, remove .active → triggers 1.5s fade-out
+
+           WHY FORCE REFLOW?
+           ──────────────────
+           Without step 3, if the user taps twice quickly, the second tap
+           wouldn't re-trigger the animation because .active is already there.
+           Removing it and re-adding it in the same frame gets batched by
+           the browser (no change detected). The reflow forces the browser
+           to process the removal before the re-addition.
+        ══════════════════════════════════════════════════════════ */
+
+        let touchFadeTimer = null;
+
+        card.addEventListener('touchstart', (e) => {
+            // ── TOUCH GUARD ──
+            // Only glow if they tapped bare glass, not a child element
+            const targetEl = e.target;
+            const isBareGlass = (targetEl === card || targetEl === touchGlow);
+            if (!isBareGlass) return;
+
+            // Get touch coordinates relative to card
+            const touch = e.touches[0];
+            const rect = card.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+
+            // Position the glow at the touch point
+            touchGlow.style.left = `${x}px`;
+            touchGlow.style.top = `${y}px`;
+
+            // Restart the bloom animation
+            touchGlow.classList.remove('active');
+            void touchGlow.offsetWidth;         // Force reflow
+            touchGlow.classList.add('active');
+
+            // Also light up the shimmer border at the same point
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+
+            // Auto-fade after 900ms
+            clearTimeout(touchFadeTimer);
+            touchFadeTimer = setTimeout(() => {
+                touchGlow.classList.remove('active');
+            }, 900);
+
+        }, { passive: true });
+        // { passive: true } tells the browser this listener won't call
+        // preventDefault(), so scrolling won't be blocked. Important for
+        // mobile performance.
+
+
+        /* ══════════════════════════════════════════════════════════
+           SYSTEM 3: MOBILE AUTO-SCANNING FLASHLIGHT
+           ══════════════════════════════════════════════════════════
+
+           On mobile (screen ≤ 768px or Android user agent), there's
+           no mouse to drive the shimmer. So we fake it.
+
+           A requestAnimationFrame loop continuously writes --mouse-x
+           and --mouse-y values that trace the card's perimeter clockwise.
+           From the CSS's perspective, it looks like a mouse is slowly
+           circling the card's edges.
+
+           THE PERIMETER TRACE ALGORITHM:
+           ───────────────────────────────
+           Think of the card's border as a flattened path:
+
+           ┌─── W (width) ────┐
+           │                   │
+           H (height)         H
+           │                   │
+           └───────────────────┘
+
+           Total perimeter = 2 × (W + H)
+
+           We map time (0..1 progress) → distance along this path,
+           then convert that distance → (x, y) coordinates:
+
+             Distance 0..W         → Top edge:    (dist, 0)
+             Distance W..W+H       → Right edge:  (W, dist-W)
+             Distance W+H..2W+H    → Bottom edge: (W-(dist-(W+H)), H)
+             Distance 2W+H..2W+2H  → Left edge:   (0, H-(dist-(2W+H)))
+
+           LOOP DURATION: 5500ms (5.5 seconds per full trace)
+           ──────────────
+           This is slow enough to feel organic and meditative,
+           but fast enough that the user notices movement quickly
+           after the page loads.
+
+           REUSES THE SAME CSS:
+           ────────────────────
+           This loop writes to --mouse-x and --mouse-y, the SAME
+           properties the desktop mouse tracking uses. The shimmer
+           CSS responds identically regardless of what produces values.
+        ══════════════════════════════════════════════════════════ */
+
+        if (window.innerWidth <= 768 || /Android/i.test(navigator.userAgent)) {
+            let startT = null;
+
+            function autoFlashlight(time) {
+                if (!startT) startT = time;
+
+                // Progress: 0.0 → 1.0 over 5500ms, then repeats
+                const progress = ((time - startT) % 5500) / 5500;
+
+                // Card dimensions (live — adapts to resizing)
+                const w = card.offsetWidth;
+                const h = card.offsetHeight;
+                const perimeter = 2 * (w + h);
+
+                // Distance along the perimeter for this frame
+                let dist = progress * perimeter;
+                let rx, ry;
+
+                // Convert distance → (x, y) coordinate on the border
+                if (dist <= w) {
+                    // ── TOP EDGE: left → right ──
+                    rx = dist;
+                    ry = 0;
+                } else if (dist <= w + h) {
+                    // ── RIGHT EDGE: top → bottom ──
+                    rx = w;
+                    ry = dist - w;
+                } else if (dist <= 2 * w + h) {
+                    // ── BOTTOM EDGE: right → left ──
+                    rx = w - (dist - (w + h));
+                    ry = h;
+                } else {
+                    // ── LEFT EDGE: bottom → top ──
+                    rx = 0;
+                    ry = h - (dist - (2 * w + h));
+                }
+
+                // Write to the same CSS properties as desktop mouse
+                card.style.setProperty('--mouse-x', `${rx}px`);
+                card.style.setProperty('--mouse-y', `${ry}px`);
+
+                // Continue the loop
+                requestAnimationFrame(autoFlashlight);
+            }
+
+            requestAnimationFrame(autoFlashlight);
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Apex Pro v2 | Product Details &amp; Tracking | Vape Co</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f27f0d",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#0a0a0a",
+                        "card-dark": "#141414",
+                        "border-dark": "#262626",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-background-dark text-slate-100 font-display;
+            }
+        }
+        .glass-nav {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .infographic-line {
+            position: absolute;
+            background: rgba(242, 127, 13, 0.4);
+            height: 1px;
+        }
+        .map-grid {
+            background-image: radial-gradient(circle, #262626 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .logo-scroll-container {
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+    </style>
+</head>
+
+<body class="transition-colors duration-300">
+    <div class="bg-primary/10 border-b border-primary/20 py-2 text-center sticky top-0 z-[60]">
+        <p class="text-[10px] uppercase tracking-widest font-bold text-primary">Warning: This product contains nicotine.
+            Nicotine is an addictive chemical. 21+ Only.</p>
+    </div>
+    <header class="sticky top-[29px] z-50 glass-nav border-b border-white/5 px-6 lg:px-20 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-12">
+                <a class="flex items-center gap-2 group" href="#">
+                    <div class="bg-primary rounded p-1">
+                        <svg class="w-6 h-6 text-background-dark" fill="currentColor" viewBox="0 0 48 48">
+                            <path
+                                d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z">
+                            </path>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-black tracking-tighter uppercase italic">Vape Co</span>
+                </a>
+                <nav class="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wide uppercase">
+                    <a class="hover:text-primary transition-colors pb-1 border-b-2 border-transparent" href="Landing-Page.html">Home</a>
+                    <a class="text-primary border-b-2 border-primary pb-1" href="#">Shop</a>
+                    <a class="hover:text-primary transition-colors pb-1 border-b-2 border-transparent hover:border-primary/50"
+                        href="Merch.html">Merch</a>
+                    <a class="hover:text-primary transition-colors pb-1 border-b-2 border-transparent hover:border-primary/50"
+                        href="#">Loyalty</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="Profile.html">
+                    <button
+                    class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-background-dark font-bold py-2 px-5 rounded-full transition-all">
+                    <span class="material-symbols-outlined text-xl">person</span>
+                    <span class="text-sm">Account</span>
+                </button>
+                </a>
+                <div class="relative group cursor-pointer">
+                    <span
+                        class="material-symbols-outlined text-2xl text-slate-300 group-hover:text-primary transition-colors">shopping_cart</span>
+                    <span
+                        class="absolute -top-1 -right-1 bg-primary text-background-dark text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">2</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="max-w-7xl mx-auto px-6 lg:px-20 py-12">
+        <nav class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-8">
+            <a class="hover:text-primary" href="#">Shop</a>
+            <span class="material-symbols-outlined text-sm">chevron_right</span>
+            <a class="hover:text-primary" href="#">Devices</a>
+            <span class="material-symbols-outlined text-sm">chevron_right</span>
+            <span class="text-slate-300">Apex Pro v2 Carbon Series</span>
+        </nav>
+        <div class="grid lg:grid-cols-2 gap-16">
+            <div class="space-y-6">
+                <div class="relative">
+                    <div
+                        class="relative aspect-[4/5] bg-card-dark border border-border-dark rounded-3xl overflow-hidden group">
+                        <div class="w-full h-full bg-center bg-cover"
+                            data-alt="High quality close up of Apex Pro v2 device"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBs4nEUW-J5fIJ9G8KqNyvv-BIwDI3jWIZsagCOrd2vFMolPgfv95GamKABMmWnhXCMD8hGDZ1OXFcMOWxDURais39g-IIxOPv42cBO6jVpLAYBLhrGoYVd6axa5La3e_lk76jkyrZGPRETxTg3y77wf-UG2D14k0t_73KyMomT_uTo9g25DPDsUQnT2xbtkCF0aLc3zj7XDyqAeGPNymAu5Mp9hTbQuq5prJfuSa8Z2nQRutbk5cxLOMSgbOde2ZmRtuFQ2uyezZE');">
+                        </div>
+                        <div class="absolute top-1/4 left-8 z-10">
+                            <div class="flex items-center">
+                                <div
+                                    class="bg-primary/90 backdrop-blur-md px-3 py-2 rounded-lg border border-primary/20 shadow-xl">
+                                    <p class="text-[10px] font-black uppercase text-background-dark leading-none mb-1">
+                                        Capacity</p>
+                                    <p class="text-xl font-black text-background-dark">10,000+ PUFFS</p>
+                                </div>
+                                <div class="w-12 h-px bg-primary/40"></div>
+                            </div>
+                        </div>
+                        <div class="absolute top-1/2 right-8 z-10">
+                            <div class="flex items-center flex-row-reverse">
+                                <div
+                                    class="bg-white/10 backdrop-blur-md px-3 py-2 rounded-lg border border-white/10 shadow-xl">
+                                    <p class="text-[10px] font-black uppercase text-primary leading-none mb-1">Tech</p>
+                                    <p class="text-xl font-black text-white">DUAL MESH COIL</p>
+                                </div>
+                                <div class="w-12 h-px bg-white/20"></div>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-1/4 left-1/3 z-10">
+                            <div class="flex flex-col items-center">
+                                <div class="h-12 w-px bg-primary/40"></div>
+                                <div
+                                    class="bg-primary/90 backdrop-blur-md px-3 py-2 rounded-lg border border-primary/20 shadow-xl">
+                                    <p
+                                        class="text-[10px] font-black uppercase text-background-dark text-center leading-none mb-1">
+                                        Fast Charge</p>
+                                    <p class="text-xl font-black text-background-dark">USB-C READY</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-20 h-20 rounded-xl border-2 border-primary bg-card-dark p-2 cursor-pointer">
+                        <div class="w-full h-full bg-center bg-cover rounded-lg"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBs4nEUW-J5fIJ9G8KqNyvv-BIwDI3jWIZsagCOrd2vFMolPgfv95GamKABMmWnhXCMD8hGDZ1OXFcMOWxDURais39g-IIxOPv42cBO6jVpLAYBLhrGoYVd6axa5La3e_lk76jkyrZGPRETxTg3y77wf-UG2D14k0t_73KyMomT_uTo9g25DPDsUQnT2xbtkCF0aLc3zj7XDyqAeGPNymAu5Mp9hTbQuq5prJfuSa8Z2nQRutbk5cxLOMSgbOde2ZmRtuFQ2uyezZE');">
+                        </div>
+                    </div>
+                    <div
+                        class="w-20 h-20 rounded-xl border border-border-dark bg-card-dark p-2 cursor-pointer hover:border-white/20 transition-colors">
+                        <div class="w-full h-full bg-center bg-cover rounded-lg"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDcOc1SHMEfNC0Mu9UbFkzd99o0AhzWGes4N3f8HvD71S0bXtjCoBvhWS8opPWOaPt65wUj_-9CKwknjKSrrq6k9T9HV2FSBp1c0TBdQK-w_gJwxSF6qcKrrM4z4rrAYK7GRuurw2Us555x8uK_mjApuf68_MbN43h7NZwkTwuQR2YvIe7SEMr3bJ2Ts8hB3c-Q_vuZMVm2TBcCtf3yEVH3b_1KY5Xz-_XwdoHzd7SuFeUPa2pq56htijLfILDKePpsD52AShWWgmY');">
+                        </div>
+                    </div>
+                    <div
+                        class="w-20 h-20 rounded-xl border border-border-dark bg-card-dark p-2 cursor-pointer hover:border-white/20 transition-colors">
+                        <div class="w-full h-full bg-center bg-cover rounded-lg"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCTMOOzQ0fNf2I4GqwzbJ_Wrmh7vlHdTLYYuyxi_Gmj8BXSeL6s895yd0Z3uMgt67I3vptdqMUQ0qsMn3A86zs_1BtL9I6vIX3zrD98Nxww6eWDL-XonObQv4tV6JYbA_4Es7WPX-twX0j6rvduQ12TxFOP7vjEJ0hfMb2aHALhLM85bnH28PBvstSOTKPPiS2D14ySeCnUdMkkhfEjIDqMS2l2OEMto59A3YRGl3SqQ03mbfFiRpAJdXyIRLDGEcqsYGdDDCU_fpw');">
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mt-8">
+                    <div
+                        class="col-span-1 bg-card-dark border border-border-dark rounded-2xl p-6 relative overflow-hidden group">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xs font-black uppercase tracking-widest text-slate-500">Community</h4>
+                            <span class="material-symbols-outlined text-primary text-xl">reviews</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="border-l-2 border-primary/30 pl-3">
+                                <p class="text-xs text-slate-300 italic mb-2">"Best flavor profile in the carbon series.
+                                    The mesh coil actually makes a difference."</p>
+                                <div class="flex items-center gap-2">
+                                    <div
+                                        class="w-5 h-5 rounded-full bg-slate-700 flex items-center justify-center text-[8px] font-bold">
+                                        JD</div>
+                                    <span class="text-[10px] font-bold text-slate-500">Justin D.</span>
+                                </div>
+                            </div>
+                            <div class="border-l-2 border-white/10 pl-3 opacity-40">
+                                <p class="text-xs text-slate-300 italic mb-2">"Shipping was incredibly fast to NJ..."
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            class="mt-4 flex items-center gap-1 text-primary cursor-pointer hover:gap-2 transition-all">
+                            <span class="text-[10px] font-black uppercase">View all reviews</span>
+                            <span class="material-symbols-outlined text-sm">arrow_right_alt</span>
+                        </div>
+                    </div>
+                    <div
+                        class="col-span-1 bg-card-dark border border-border-dark rounded-2xl p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <h4 class="text-xs font-black uppercase tracking-widest text-slate-500">Related Picks
+                                </h4>
+                                <span class="material-symbols-outlined text-primary text-xl">compare_arrows</span>
+                            </div>
+                            <div class="space-y-3">
+                                <div
+                                    class="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors cursor-pointer border border-transparent hover:border-white/10">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8 h-8 rounded bg-slate-800 bg-cover"
+                                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDcOc1SHMEfNC0Mu9UbFkzd99o0AhzWGes4N3f8HvD71S0bXtjCoBvhWS8opPWOaPt65wUj_-9CKwknjKSrrq6k9T9HV2FSBp1c0TBdQK-w_gJwxSF6qcKrrM4z4rrAYK7GRuurw2Us555x8uK_mjApuf68_MbN43h7NZwkTwuQR2YvIe7SEMr3bJ2Ts8hB3c-Q_vuZMVm2TBcCtf3yEVH3b_1KY5Xz-_XwdoHzd7SuFeUPa2pq56htijLfILDKePpsD52AShWWgmY');">
+                                        </div>
+                                        <div class="leading-tight">
+                                            <p class="text-[10px] font-bold">Nova X</p>
+                                            <p class="text-[8px] text-slate-500 uppercase">Similar Profile</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-[10px] font-black">$74.99</span>
+                                </div>
+                                <div
+                                    class="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors cursor-pointer border border-transparent hover:border-white/10">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8 h-8 rounded bg-slate-800 bg-cover"
+                                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCTMOOzQ0fNf2I4GqwzbJ_Wrmh7vlHdTLYYuyxi_Gmj8BXSeL6s895yd0Z3uMgt67I3vptdqMUQ0qsMn3A86zs_1BtL9I6vIX3zrD98Nxww6eWDL-XonObQv4tV6JYbA_4Es7WPX-twX0j6rvduQ12TxFOP7vjEJ0hfMb2aHALhLM85bnH28PBvstSOTKPPiS2D14ySeCnUdMkkhfEjIDqMS2l2OEMto59A3YRGl3SqQ03mbfFiRpAJdXyIRLDGEcqsYGdDDCU_fpw');">
+                                        </div>
+                                        <div class="leading-tight">
+                                            <p class="text-[10px] font-bold">Titan v4</p>
+                                            <p class="text-[8px] text-slate-500 uppercase">Max Capacity</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-[10px] font-black">$99.99</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-border-dark">
+                            <p class="text-[9px] text-slate-500 uppercase font-medium text-center italic">Customers also
+                                viewed these vapes with similar flavor intensity</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-10">
+                <div>
+                    <div
+                        class="inline-flex items-center gap-2 bg-primary/20 border border-primary/30 rounded-full px-3 py-1 mb-4">
+                        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-primary">In Stock &amp; Ready
+                            to Ship</span>
+                    </div>
+                    <h1 class="text-5xl font-black tracking-tighter uppercase italic mb-2">Apex Pro v2 <span
+                            class="text-primary">Carbon</span></h1>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="flex text-primary">
+                            <span class="material-symbols-outlined fill-1">star</span>
+                            <span class="material-symbols-outlined fill-1">star</span>
+                            <span class="material-symbols-outlined fill-1">star</span>
+                            <span class="material-symbols-outlined fill-1">star</span>
+                            <span class="material-symbols-outlined fill-1">star</span>
+                        </div>
+                        <span class="text-sm font-bold text-slate-400">4.9 (1,248 Reviews)</span>
+                    </div>
+                    <div class="flex items-baseline gap-4">
+                        <span class="text-4xl font-black">$89.99</span>
+                        <span class="text-slate-500 line-through font-bold text-lg">$114.99</span>
+                        <span class="bg-red-500/10 text-red-500 text-[10px] font-black px-2 py-1 rounded">20% OFF</span>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <p class="text-slate-400 leading-relaxed">
+                        The Apex Pro v2 Carbon Series is engineered for those who demand the pinnacle of performance.
+                        Featuring our proprietary dual-mesh coil technology and a massive 10,000 puff capacity, it’s the
+                        only device you’ll ever need.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 pt-4">
+                        <div class="flex items-center gap-3 bg-white/5 p-4 rounded-xl border border-white/5">
+                            <span class="material-symbols-outlined text-primary">battery_charging_full</span>
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-slate-500">Battery</p>
+                                <p class="text-sm font-bold">850mAh Fast-Charge</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white/5 p-4 rounded-xl border border-white/5">
+                            <span class="material-symbols-outlined text-primary">vaping_rooms</span>
+                            <div>
+                                <p class="text-[10px] uppercase font-bold text-slate-500">Output</p>
+                                <p class="text-sm font-bold">12W - 80W Variable</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-card-dark border border-border-dark rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">local_shipping</span>
+                            <h4 class="font-bold uppercase tracking-wide">Shipping Estimate</h4>
+                        </div>
+                        <span class="text-[10px] font-bold text-slate-500 uppercase">Zip: 90210 (Detecting...)</span>
+                    </div>
+                    <div
+                        class="flex items-center justify-between p-4 bg-background-dark rounded-xl border border-white/5">
+                        <div>
+                            <p class="text-xs text-slate-400 font-medium">Estimated Delivery</p>
+                            <p class="text-lg font-black text-white">Thursday, Oct 24th</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-primary font-bold">Express Available</p>
+                            <p class="text-xs text-slate-500 italic">Order in next 2h 14m</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-card-dark border border-border-dark rounded-2xl p-6 overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-bold uppercase tracking-wide flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">hub</span>
+                            Logistics Network
+                        </h4>
+                        <span class="flex items-center gap-1.5 text-[10px] font-black text-green-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                            LIVE NETWORK STATUS
+                        </span>
+                    </div>
+                    <div
+                        class="relative h-48 bg-background-dark rounded-xl border border-white/5 map-grid overflow-hidden">
+                        <div
+                            class="absolute top-1/4 left-1/4 w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_rgba(242,127,13,0.8)]">
+                        </div>
+                        <div class="absolute top-1/2 left-1/3 w-1.5 h-1.5 bg-slate-600 rounded-full"></div>
+                        <div
+                            class="absolute bottom-1/3 right-1/4 w-2 h-2 bg-primary rounded-full shadow-[0_0_10px_rgba(242,127,13,0.8)]">
+                        </div>
+                        <div class="absolute top-1/3 right-1/2 w-1.5 h-1.5 bg-slate-600 rounded-full"></div>
+                        <div
+                            class="absolute top-8 left-12 bg-black/60 backdrop-blur-sm border border-white/10 px-2 py-1 rounded text-[8px] font-bold">
+                            HUB-01: LOS ANGELES</div>
+                        <div
+                            class="absolute bottom-12 right-12 bg-black/60 backdrop-blur-sm border border-white/10 px-2 py-1 rounded text-[8px] font-bold text-primary">
+                            HUB-04: DESTINATION REGION</div>
+                        <svg class="absolute inset-0 w-full h-full opacity-30">
+                            <path d="M100 50 L150 100 L300 150" fill="none" stroke="#f27f0d" stroke-dasharray="4 4"
+                                stroke-width="1"></path>
+                        </svg>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-3 text-center uppercase tracking-tighter">Inventory synced
+                        across 12 North American distribution hubs</p>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex items-center border border-border-dark rounded-xl px-4 py-3 bg-card-dark">
+                        <button class="material-symbols-outlined text-slate-400 hover:text-white">remove</button>
+                        <span class="mx-6 font-bold">1</span>
+                        <button class="material-symbols-outlined text-slate-400 hover:text-white">add</button>
+                    </div>
+                    <button
+                        class="flex-1 bg-primary text-background-dark font-black uppercase tracking-widest py-4 rounded-xl hover:shadow-[0_0_30px_rgba(242,127,13,0.3)] transition-all">
+                        Add to Cart
+                    </button>
+                    <button class="px-4 border border-border-dark rounded-xl hover:bg-white/5 transition-colors">
+                        <span class="material-symbols-outlined">favorite</span>
+                    </button>
+                </div>
+                <div class="flex justify-between items-center pt-6 border-t border-border-dark">
+                    <div class="text-center group">
+                        <span
+                            class="material-symbols-outlined text-slate-500 group-hover:text-primary transition-colors">verified_user</span>
+                        <p class="text-[9px] uppercase font-bold text-slate-500 mt-1">Authentic</p>
+                    </div>
+                    <div class="text-center group">
+                        <span
+                            class="material-symbols-outlined text-slate-500 group-hover:text-primary transition-colors">workspace_premium</span>
+                        <p class="text-[9px] uppercase font-bold text-slate-500 mt-1">1yr Warranty</p>
+                    </div>
+                    <div class="text-center group">
+                        <span
+                            class="material-symbols-outlined text-slate-500 group-hover:text-primary transition-colors">published_with_changes</span>
+                        <p class="text-[9px] uppercase font-bold text-slate-500 mt-1">30 Day Returns</p>
+                    </div>
+                    <div class="text-center group">
+                        <span
+                            class="material-symbols-outlined text-slate-500 group-hover:text-primary transition-colors">support_agent</span>
+                        <p class="text-[9px] uppercase font-bold text-slate-500 mt-1">24/7 Support</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-24 py-12 border-t border-white/5">
+            <div class="max-w-7xl mx-auto">
+                <h3 class="text-center text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 mb-10">Trusted
+                    by Global Partners</h3>
+                <div class="relative overflow-hidden logo-scroll-container">
+                    <div class="flex items-center justify-between gap-12 grayscale opacity-40">
+                        <div class="flex-shrink-0 flex items-center gap-2">
+                            <div class="w-8 h-8 rounded bg-slate-400"></div>
+                            <span class="text-xl font-bold tracking-tighter">CLOUDCORE</span>
+                        </div>
+                        <div class="flex-shrink-0 flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-slate-400"></div>
+                            <span class="text-xl font-bold tracking-tighter">PULSETECH</span>
+                        </div>
+                        <div class="flex-shrink-0 flex items-center gap-2">
+                            <div class="w-8 h-8 rotate-45 bg-slate-400"></div>
+                            <span class="text-xl font-bold tracking-tighter">NEXUS_V</span>
+                        </div>
+                        <div class="flex-shrink-0 flex items-center gap-2">
+                            <div class="w-10 h-6 rounded-sm bg-slate-400"></div>
+                            <span class="text-xl font-bold tracking-tighter">MISTLABS</span>
+                        </div>
+                        <div class="flex-shrink-0 flex items-center gap-2">
+                            <div class="w-8 h-8 bg-slate-400" style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%);">
+                            </div>
+                            <span class="text-xl font-bold tracking-tighter">ELEMENTS</span>
+                        </div>
+                        <div class="flex-shrink-0 flex items-center gap-2">
+                            <div class="w-8 h-8 rounded bg-slate-400"></div>
+                            <span class="text-xl font-bold tracking-tighter">ZENITH</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="bg-background-dark border-t border-white/5 pt-20 pb-10 px-6 lg:px-20">
+        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
+            <div class="col-span-2">
+                <a class="flex items-center gap-2 mb-6" href="#">
+                    <div class="bg-primary rounded p-1">
+                        <svg class="w-5 h-5 text-background-dark" fill="currentColor" viewBox="0 0 48 48">
+                            <path
+                                d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z">
+                            </path>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-black uppercase italic tracking-tighter">Vape Co</span>
+                </a>
+                <p class="text-slate-500 max-w-xs leading-relaxed mb-6">
+                    Redefining the standard of premium vaping. Committed to quality, technology, and community.
+                </p>
+                <div class="flex gap-4">
+                    <a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors hover:text-background-dark"
+                        href="#">
+                        <span class="material-symbols-outlined text-lg">public</span>
+                    </a>
+                    <a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors hover:text-background-dark"
+                        href="#">
+                        <span class="material-symbols-outlined text-lg">chat</span>
+                    </a>
+                    <a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors hover:text-background-dark"
+                        href="#">
+                        <span class="material-symbols-outlined text-lg">alternate_email</span>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <h5 class="font-bold uppercase text-xs tracking-widest mb-6">Shop</h5>
+                <ul class="space-y-4 text-slate-500 text-sm">
+                    <li><a class="hover:text-primary transition-colors" href="#">Vape Kits</a></li>
+                    <li><a class="hover:text-primary transition-colors" href="#">Pod Systems</a></li>
+                    <li><a class="hover:text-primary transition-colors" href="#">E-Liquids</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="font-bold uppercase text-xs tracking-widest mb-6">Support</h5>
+                <ul class="space-y-4 text-slate-500 text-sm">
+                    <li><a class="hover:text-primary transition-colors" href="#">Order Status</a></li>
+                    <li><a class="hover:text-primary transition-colors" href="#">Returns</a></li>
+                    <li><a class="hover:text-primary transition-colors" href="#">Age Policy</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="font-bold uppercase text-xs tracking-widest mb-6">Company</h5>
+                <ul class="space-y-4 text-slate-500 text-sm">
+                    <li><a class="hover:text-primary transition-colors" href="#">Our Story</a></li>
+                    <li><a class="hover:text-primary transition-colors" href="#">Loyalty</a></li>
+                    <li><a class="hover:text-primary transition-colors" href="#">Careers</a></li>
+                </ul>
+            </div>
+        </div>
+        <div
+            class="border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-600">
+            <p>© 2024 VAPE CO PREMIUM. ALL RIGHTS RESERVED.</p>
+            <div class="flex gap-8">
+                <a class="hover:text-slate-400" href="#">Terms of Service</a>
+                <a class="hover:text-slate-400" href="#">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

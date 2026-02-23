@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="IMG/VAPE-EXPRESS.png">
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>VAPE EXPRESS | Log In</title>
+    <link rel="icon" type="image/svg+xml" href="SVG/VAPE-EXPRESS.svg">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Font Awesome 6 Brands for Google & Apple icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f27f0d",
+                        "background-dark": "#0a0a0a",
+                        "card-dark": "#141414",
+                        "border-dark": "#2a2a2a",
+                        "apple-gray": "#F5F5F7",
+                    },
+                    fontFamily: {
+                        "display": ["-apple-system", "BlinkMacSystemFont", "SF Pro Display", "SF Pro Text", "Helvetica Neue", "Arial", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        :root {
+            --primary-glow: rgba(242, 127, 13, 0.15);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+        .login-gradient {
+            background-color: #030303; /* Much darker base background */
+        }
+
+        /* ==========================================================================
+   MAGIC ROUNDED TOOLTIP (Apple-Style)
+   ========================================================================== */
+
+   /* Tooltip Base */
+.logo-tooltip {
+    position: absolute;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease, width 0.5s ease, height 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    overflow: visible;
+}
+
+/* During countdown: not-allowed cursor */
+.logo-tooltip.countdown-active {
+    pointer-events: auto;
+    cursor: not-allowed;
+}
+.logo-tooltip.countdown-active .tooltip-content,
+.logo-tooltip.countdown-active .tooltip-content * {
+    cursor: not-allowed;
+}
+
+/* After countdown: entire pill is the click target */
+.logo-tooltip.clickable-active {
+    pointer-events: auto;
+    cursor: pointer;
+    width: 90px;
+    height: 35px;
+}
+.logo-tooltip.clickable-active .tooltip-content {
+    cursor: pointer;
+}
+
+/* 3D Black Sphere Glass */
+.tooltip-content {
+    /* Multi-layered background for 3D depth */
+    background: radial-gradient(circle at 30% 30%, #2a2a2a 0%, #0a0a0a 100%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    /* Deep shadow for "floating" effect */
+    box-shadow: 
+        0 10px 20px rgba(0, 0, 0, 0.6),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* High-End Glass Container 
+.tooltip-content {
+    background: rgba(30, 30, 35, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%; /* Starts round for timer / 
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    transition: border-radius 0.5s ease, width 0.5s ease, height 0.5s ease;
+} */
+
+/* Iridescent Border (Proximity Driven) */
+.tooltip-content::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: radial-gradient(
+        60px circle at var(--t-mx, 50%) var(--t-my, 50%),
+        hsl(280, 100%, 78%), hsl(200, 100%, 72%), hsl(50, 100%, 78%), transparent 80%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: var(--t-iri, 0);
+    transition: opacity 0.3s ease;
+}
+
+/* Spinning Dashed Border */
+.dashed-border {
+    position: absolute;
+    inset: 4px;
+    border: 1.5px dashed rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    animation: load 5s forwards ease-in-out;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Rounded 5px State (Triggered by JS) */
+.tooltip-content.message-mode {
+    border-radius: 100px;
+    width: 90px;
+    height: 35px;
+}
+
+        /* Organic vertical float for the main vape devices */ 
+        /* Organic 8-way float: Up, Down, Left, and Right */
+
+@keyframes ultraSlowFloat {
+    0%, 100% { 
+        transform: translate(0, 0); 
+    }
+    25% {
+        transform: translate(8px, -15px); /* Move Up and Right */
+    }
+    50% { 
+        transform: translate(-5px, 15px); /* Move Down and Left */
+    }
+    75% {
+        transform: translate(-10px, -8px); /* Move Up and Left */
+    }
+}
+
+.animate-vape-float {
+    animation: ultraSlowFloat 45s ease-in-out infinite; /* Increased to 8s for smoothness */
+}
+
+.animate-vape-float {
+    animation: ultraSlowFloat 45s ease-in-out infinite;
+}
+        
+        /* The Dots Layer (Gradient mapped directly onto the dots using a mask) */
+        .login-gradient::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            
+            /* The Gradients (now coloring the dots directly) */
+            background-image: 
+                /* Top-Left: Dim metallic grey beam falling towards the middle */
+                linear-gradient(135deg, rgb(255, 255, 255) 0%, rgba(100, 105, 115, 0.15) 35%, transparent 60%),
+                /* Top-Right: Darker dim light */
+                radial-gradient(ellipse 50% 50% at 80% 20%, rgba(60, 60, 65, 0.5) 0%, transparent 80%),
+                /* Bottom-Right: Ambient Orange (45 deg angle) */
+                radial-gradient(ellipse 70% 70% at 80% 80%, rgb(255, 140, 0) 0%, transparent 80%),
+                /* Bottom-Left: Dim light */
+                radial-gradient(ellipse 50% 50% at 20% 80%, rgba(60, 60, 65, 0.5) 0%, transparent 80%),
+                /* Center: Soft orange core */
+                radial-gradient(circle at 50% 50%, rgba(242, 127, 13, 0.4) 0%, transparent 80%);
+
+            /* 3D Metallic Sphere Mask */
+            /* The offset center (35% 35%) creates a highlight mimicking a 3D light reflection */
+            -webkit-mask-image: radial-gradient(circle at 35% 35%, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 0.5px, transparent 1px);
+            -webkit-mask-size: 10px 10px; /* Restored size spacing but made the dot itself tinier */
+            mask-image: radial-gradient(circle at 35% 35%, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 0.5px, transparent 1px);
+            mask-size: 10px 10px;
+        }
+
+        /* The Bottom Fade (hides the lowest dots by layering over them) */
+        .login-gradient::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(to bottom, transparent 75%, #030303 100%);
+            z-index: 1;
+        }
+        .glass-card {
+            background: rgba(15, 15, 15, 0.35); /* More transparent to let the light through */
+            backdrop-filter: blur(5px); /* Increased glassy blur */
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.04); /* Dim static border */
+            position: relative;
+        }
+
+        /* Reactive Shimmer Border using mouse tracking */
+        .glass-card::after {
+            z-index: 5;
+            pointer-events: none;
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit; /* matches exactly the 5px border radius */
+            padding: 1px; /* thickness of the shimmer border */
+            background: radial-gradient(
+                500px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), 
+                rgba(255, 255, 255, 0.6), 
+                transparent 40%
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: var(--shimmer-opacity, 0);
+            transition: opacity 0.5s ease;
+            z-index: 50; /* ensure it's on top of card content edges */
+        }
+        
+        /* Show the glow only when hovering */
+        .glass-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Always show shimmer on mobile so the animation is visible */
+        @media (max-width: 768px) {
+            .glass-card::after {
+                opacity: 1;
+            }
+        }
+        
+        /* 
+           =========================================================
+           CHANGE LOGO SIZE HERE
+           =========================================================
+           Use these settings to change how big the logo looks on 
+           phones (Android/iPhone) versus computers (PC/Mac).
+           ========================================================= 
+        */
+
+        /* Step 1: Mobile phone size (Android/iPhone) */
+        #main-logo {
+            width: 140px; /* Make this wider or narrower to change the logo size on phones */
+            height: auto; /* Leave this as "auto" so the logo stays perfectly proportioned */
+            object-fit: contain; /* This prevents the image from getting cut off or squished */
+            display: block; /* Helps the layout treat it as a solid image block */
+        }
+
+        /* Step 2: Computer and Tablet size (PC/Mac/iPad) */
+        /* This rule only kicks in if the screen is wider than 768 pixels */
+        @media (min-width: 768px) {
+            #main-logo {
+                width: 280px; /* Make this wider or narrower to change the logo size on computers */
+            }
+        }
+
+        /* Touch Glow Effect (Mobile) */
+        .touch-glow {
+            pointer-events: none;
+            z-index: -1;
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            /* Pure white diffused light — like a torch pressed under frosted glass */
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.07) 45%, transparent 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            /* z-index 1 keeps it BELOW inputs, buttons, labels, links (which are z-index auto/higher) */
+            z-index: 1;
+            opacity: 0;
+            /* Slow fade-out so the light lingers gracefully */
+            transition: opacity 1.5s ease-out, width 0.25s ease, height 0.25s ease;
+            filter: blur(18px);
+        }
+        .touch-glow.active {
+            opacity: 1;
+            width: 280px;
+            height: 280px;
+            /* Quick appear, slow disappear handled by JS class removal */
+            transition: opacity 0.1s ease-in, width 0.25s ease, height 0.25s ease;
+        }
+
+        /* 3D Glass Tags for Vapes */
+        .glass-tag {
+            background: rgba(30, 30, 35, 0.4); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255,255,255,0.08); /* 3d reflection */
+            color: #F5F5F7;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 8px 16px;
+            position: absolute;
+            z-index: 20;
+            pointer-events: auto; /* Change to auto so they are clickable */
+            opacity: var(--tag-opacity, 0);
+            transition: opacity 0.15s ease-out, top 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), bottom 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), left 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), right 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.3s;
+            text-decoration: none;
+        }
+        .glass-tag:hover {
+            background: rgba(60, 60, 65, 0.6);
+            border-top: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        /* Iridescent shimmer border — proximity-driven, same as the mask trick on the card */
+        .glass-tag::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px; /* thickness of the iridescent arc */
+            /* Tight radial arc centred at mouse — never surrounds fully, just a local bloom */
+            background: radial-gradient(
+                100px circle at var(--tag-mx, -200px) var(--tag-my, -200px),
+                /* Iridescent rainbow stops: violet → cyan → mint → gold → pink */
+                hsl(280, 100%, 78%),
+                hsl(200, 100%, 72%) 20%,
+                hsl(160, 100%, 68%) 38%,
+                hsl(50,  100%, 78%) 58%,
+                hsl(330, 100%, 78%) 78%,
+                transparent 92%
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            pointer-events: none;
+            /* opacity driven entirely by JS via --tag-iri for smooth proximity fade */
+            opacity: var(--tag-iri, 0);
+            transition: opacity 0.6s ease;
+            z-index: 30;
+        }
+
+        /* Hovering the image forces full brightness and pulls tags inward */
+        .vape-wrapper:hover .glass-tag {
+            opacity: 1 !important;
+        }
+        
+        /* Initial Positions */
+        .tag-tl { top: 5%; left: -25%; }
+        .tag-br { bottom: 5%; right: -15%; }
+        .tag-tr { top: 5%; right: -25%; }
+        .tag-bl { bottom: 5%; left: -15%; }
+        
+        /* Converge on hover over image */
+        .vape-wrapper:hover .tag-tl { top: 22%; left: -10%; }
+        .vape-wrapper:hover .tag-br { bottom: 18%; right: -2%; }
+        .vape-wrapper:hover .tag-tr { top: 18%; right: -10%; }
+        .vape-wrapper:hover .tag-bl { bottom: 22%; left: -2%; }
+
+        /* Very slow, organic float animations */
+        @keyframes floatTagY {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes floatTagX {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(6px); }
+        }
+        
+        .animate-float-1 {
+            animation: floatTagY 6s ease-in-out infinite, floatTagX 8s ease-in-out infinite;
+        }
+        .animate-float-2 {
+            animation: floatTagY 7s ease-in-out infinite reverse, floatTagX 9s ease-in-out infinite;
+        }
+
+        /* Magnetic repulsion + ultra-subtle 3D tilt — both driven by mouse proximity */
+        /* The parent flex row needs perspective for the 3D tilt to render correctly */
+        .vape-wrapper {
+            transform:
+                translate(var(--repel-x, 0px), var(--repel-y, 0px))
+                perspective(600px)
+                rotateX(var(--tilt-x, 0deg))
+                rotateY(var(--tilt-y, 0deg));
+            transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s;
+            transform-style: preserve-3d;
+        }
+    </style>
+</head>
+
+<body class="bg-background-dark text-slate-100 font-display">
+
+    <main class="min-h-screen w-full flex flex-col items-center justify-center login-gradient relative p-6 py-12">
+        <div class="flex flex-row items-center justify-center gap-10 w-full max-w-[1200px] relative z-10">
+
+            <!-- Left Vape Image (Hidden on Mobile) -->
+            <div
+                class="vape-wrapper hidden md:block w-1/3 max-w-[300px] opacity-90 hover:opacity-100 transition-opacity duration-500 relative">
+
+                <!-- 3D Glass Tags -->
+                <a href="#" class="glass-tag tag-tl animate-float-1">Mango Lemonade</a>
+                <a href="#" class="glass-tag tag-br animate-float-2">7500 Puffs</a>
+
+                <a href="#" class="block cursor-pointer">
+                    <img src="IMG/VAPE 1.png" alt="Premium Vape Device"
+                        class="animate-vape-float -full h-auto object-contain drop-shadow-[0_0_30px_rgba(242,127,13,0.3)] hover:scale-105 transition-transform duration-700">
+                </a>
+            </div>
+
+            <!-- Adjust the border here: border-[1px] controls thickness, border-white/5 controls color and opacity -->
+            <div class="w-full max-w-[450px] relative z-10">
+                <!-- Adjust border radius here: 5px -->
+                <div id="login-card"
+                    class="glass-card rounded-[5px] p-6 lg:p-10 shadow-3xl relative overflow-hidden transition-all duration-300">
+
+                    <!--MAGIC ROUNDED TOOL TIP-->
+
+                    <div id="logo-tooltip" class="logo-tooltip">
+                        <div class="tooltip-content">
+                            <div id="tooltip-timer" class="timer-circle">
+                                <div class="dashed-border"></div>
+                                <span id="timer-text">3s</span>
+                            </div>
+                            <div id="tooltip-message" class="hidden text-[15px]"><a
+                                    href="https://leonelferreira0373.github.io/Leonel-Ferreira-Portfolio/"
+                                    target="_blank">Click
+                                    me!</a></div>
+                        </div>
+                    </div>
+
+                    <!-- Touch Glow Spot (Mobile Only) -->
+                    <div class="touch-glow" id="touch-glow"></div>
+
+                    <!-- Ambient Glow Decoration -->
+                    <div
+                        class="absolute -top-16 -right-10 w-44 h-44 bg-primary/40 blur-[80px] rounded-full pointer-events-none">
+                    </div>
+
+                    <div class="flex flex-col gap-6 items-center relative z-20">
+                        <!-- Top: Branding (Centered) -->
+                        <div class="w-full flex flex-col items-center justify-center text-center">
+                            <!-- We are now controlling the size in the <style> tag at the top of this file using the ID "main-logo" -->
+                            <a href="#" class="cursor-pointer">
+                                <img id="main-logo" src="SVG/VAPE-EXPRESS.svg" alt="Vape Express Logo"
+                                    class="mb-4 drop-shadow-[0_0_20px_rgba(242,127,13,0.4)]">
+                            </a>
+                            <h1 class="text-xl font-bold mb-1 text-white">
+                                WELCOME BACK!</h1>
+                            <p class="text-apple-gray text-[10px]  opacity-60">The
+                                ultimate vaping experience.</p>
+                        </div>
+
+                        <!-- Bottom: Interaction -->
+                        <div class="w-full">
+                            <!-- Social Login -->
+                            <!--<i class="fa-brands fa-google text-[15px]"></i> BLACK AND WHITE GOOGLE LOGO, REPLACE IN LINE 364, REMOVE THE SVG BLOCK-->
+                            <div class="grid grid-cols-1 gap-2 mb-4">
+                                <button
+                                    class="flex items-center justify-center gap-2.5 py-2.5 px-4 bg-white text-black font-bold rounded-xl hover:bg-white/90 transition-all text-[11px]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
+                                        class="w-[17px] h-[17px]">
+                                        <path fill="#FFC107"
+                                            d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
+                                        <path fill="#FF3D00"
+                                            d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
+                                        <path fill="#4CAF50"
+                                            d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" />
+                                        <path fill="#1976D2"
+                                            d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571l6.19,5.238C40.483,35.54,44,30.178,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
+                                    </svg>
+                                    Login with Google
+                                </button>
+                                <button
+                                    class="flex items-center justify-center gap-2.5 py-2.5 px-4 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-all border border-white/10 text-[11px]">
+                                    <i class="fa-brands fa-apple text-[17px]"></i>
+                                    Login with Apple ID
+                                </button>
+                            </div>
+
+                            <!-- Separator -->
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="flex-1 border-t border-white/[#F5F5F7] opacity-40"></div>
+                                <span class="text-[9px] font-bold text-apple-gray opacity-40">
+                                    OR
+                                </span>
+                                <div class="flex-1 border-t border-white/[#F5F5F7] opacity-40"></div>
+                            </div>
+
+                            <!-- Form Section -->
+                            <form class="space-y-3">
+                                <div>
+                                    <label
+                                        class="block text-[10px] font-normal text-apple-gray mb-1.5 ml-1 opacity-50">Email</label>
+                                    <input
+                                        class="w-full bg-white/5 hover:border-white/20 border border-white/5 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-primary/40 focus:border-primary/50 outline-none transition-all placeholder:text-apple-gray/40 font-normal"
+                                        placeholder="name@domain.com" type="email" />
+                                </div>
+                                <div>
+                                    <div class="flex justify-between items-center mb-1.5 ml-1 mr-1">
+                                        <label
+                                            class="block text-[10px] font-normal text-apple-gray opacity-50">Password</label>
+                                        <a class="text-[10px] font-normal text-primary hover:underline"
+                                            href="#">Forgot?</a>
+                                    </div>
+                                    <input
+                                        class="w-full bg-white/5 hover:border-white/20 border border-white/5 rounded-xl px-4 py-3 text-sm focus:ring-1 focus:ring-primary/40 focus:border-primary/50 outline-none transition-all placeholder:text-apple-gray/40 font-normal"
+                                        placeholder="••••••••" type="password" />
+                                </div>
+                                <a href="Landing-Page.html"
+                                    class="block w-full bg-primary text-background-dark font-bold py-3.5 rounded-xl text-[12px] text-center hover:shadow-[0_0_40px_rgba(242,127,13,0.3)] transition-all mt-2 transform active:scale-[0.98]">
+                                    Log In
+                                </a>
+                            </form>
+
+                            <!-- Signup Link -->
+                            <p
+                                class="text-center mt-6 text-[10px] text-apple-gray font-bold opacity-50 hover:opacity-100 transition-opacity duration-300 cursor-default">
+                                No account?
+                                <a class="text-primary hover:underline ml-1 cursor-pointer" href="Sign-up.html">Create
+                                    now</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Text -->
+                <div class="mt-6 text-center px-4">
+                    <a href="#"
+                        class="inline-block text-[9px] font-bold md:font-normal text-[#F5F5F7] opacity-15 md:opacity-25 hover:opacity-100 hover:text-[#fff] hover:underline leading-relaxed max-w-[95%] mx-auto transition-all duration-300">
+                        By signing in, you confirm you are 18+ and agree to our <br class="hidden md:block" />Terms of
+                        Service and Privacy Policy.
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Vape Image (Hidden on Mobile) -->
+            <div
+                class="vape-wrapper hidden md:block w-1/3 max-w-[300px] vape-wrapper hidden md:block w-1/3 max-w-[300px] opacity-90 hover:opacity-100 transition-opacity duration-500 relative">
+
+                <!-- 3D Glass Tags -->
+                <a href="#" class="glass-tag tag-tr animate-float-2">Strawberry Kiwi</a>
+                <a href="#" class="glass-tag tag-bl animate-float-1">5% Nicotine</a>
+
+                <a href="#" class="block cursor-pointer">
+                    <img src="IMG/VAPE 2.1.png" alt="Premium Vape Device" style="animation-delay: -15s"
+                        class="animate-vape-float w-full h-auto object-contain drop-shadow-[0_0_30px_rgba(242,127,13,0.3)] hover:scale-105 transition-transform duration-700">
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Copyright -->
+        <div class="absolute bottom-4 opacity-20">
+            <p class="text-[9px] font-bold text-apple-gray text-center">© 2024 VAPE EXPRESS
+                PREMIUM. ALL RIGHTS RESERVED.</p>
+        </div>
+    </main>
+
+    <script>
+        // Reactive Hover Shimmer Effect Logic for Login Card
+        const card = document.getElementById('login-card');
+        const vapeWrappers = document.querySelectorAll('.vape-wrapper');
+
+        // Note: Desktop mouse tracking
+        document.addEventListener('mousemove', (e) => {
+            if (window.innerWidth > 768) {
+                // Login Card Logic
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+
+                // Vape Wrappers Proximity Logic (Glass Tags Reveal + Iridescent border tracking)
+                const allTags = document.querySelectorAll('.glass-tag');
+                vapeWrappers.forEach(wrapper => {
+                    const wRect = wrapper.getBoundingClientRect();
+                    // Get center of image
+                    const centerX = wRect.left + wRect.width / 2;
+                    const centerY = wRect.top + wRect.height / 2;
+
+                    // Distance from mouse to center
+                    const dist = Math.sqrt(Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2));
+
+                    // Reveal completely inside 150px, start fading in at 400px
+                    const maxDist = 400;
+                    const minDist = 150;
+
+                    let op = 0;
+                    if (dist < minDist) {
+                        op = 1;
+                    } else if (dist < maxDist) {
+                        // linear fade between min and max dist
+                        op = 1 - ((dist - minDist) / (maxDist - minDist));
+                    }
+                    wrapper.style.setProperty('--tag-opacity', op);
+
+                    // Magnetic repulsion: nudge image gently away from mouse
+                    // Only activates within 300px, max displacement 7px — barely perceptible
+                    const repelRadius = 300;
+                    const maxRepel = 7.7; // px (10% stronger)
+                    if (dist > 0 && dist < repelRadius) {
+                        const strength = (1 - dist / repelRadius) * maxRepel;
+                        const dx = (centerX - e.clientX) / dist;
+                        const dy = (centerY - e.clientY) / dist;
+                        wrapper.style.setProperty('--repel-x', `${dx * strength}px`);
+                        wrapper.style.setProperty('--repel-y', `${dy * strength}px`);
+                    } else {
+                        wrapper.style.setProperty('--repel-x', '0px');
+                        wrapper.style.setProperty('--repel-y', '0px');
+                    }
+
+                    // Ultra-subtle 3D tilt — max 3 degrees, only when mouse is nearby
+                    // Offset of mouse from centre, normalised to [-1, +1] based on wrapper size
+                    const tiltRadius = 400;
+                    const maxTilt = 13; // degrees — clearly visible at the edges
+                    if (dist < tiltRadius) {
+                        const falloff = 1 - dist / tiltRadius;
+                        // Normalise mouse offset relative to image size for a natural tilt
+                        const normX = (e.clientX - centerX) / (wRect.width / 2);
+                        const normY = (e.clientY - centerY) / (wRect.height / 2);
+                        // rotateY tilts left/right, rotateX tilts up/down (note: inverted Y)
+                        const tiltY = normX * maxTilt * falloff;
+                        const tiltX = -normY * maxTilt * falloff;
+                        wrapper.style.setProperty('--tilt-x', `${tiltX}deg`);
+                        wrapper.style.setProperty('--tilt-y', `${tiltY}deg`);
+                    } else {
+                        wrapper.style.setProperty('--tilt-x', '0deg');
+                        wrapper.style.setProperty('--tilt-y', '0deg');
+                    }
+                });
+
+                // Per-tag iridescent border: track mouse position + proximity opacity per tag
+                allTags.forEach(tag => {
+                    const tRect = tag.getBoundingClientRect();
+                    const tx = e.clientX - tRect.left;
+                    const ty = e.clientY - tRect.top;
+                    tag.style.setProperty('--tag-mx', `${tx}px`);
+                    tag.style.setProperty('--tag-my', `${ty}px`);
+
+                    // Distance from mouse to centre of this individual tag
+                    const tagCx = tRect.left + tRect.width / 2;
+                    const tagCy = tRect.top + tRect.height / 2;
+                    const tagDist = Math.sqrt(Math.pow(e.clientX - tagCx, 2) + Math.pow(e.clientY - tagCy, 2));
+
+                    // Fade in iridescence from 250px away, fully bright at 60px
+                    const iriMax = 250;
+                    const iriMin = 60;
+                    let iri = 0;
+                    if (tagDist < iriMin) {
+                        iri = 1;
+                    } else if (tagDist < iriMax) {
+                        iri = 1 - ((tagDist - iriMin) / (iriMax - iriMin));
+                    }
+                    tag.style.setProperty('--tag-iri', iri);
+                });
+            }
+        });
+
+        // ── Mobile Touch Glow ──────────────────────────────────────────────
+        const touchGlow = document.getElementById('touch-glow');
+        let touchFadeTimer = null;
+
+        function triggerGlow(x, y) {
+            // Place the glow exactly where tapped/clicked and show it
+            touchGlow.style.left = `${x}px`;
+            touchGlow.style.top = `${y}px`;
+
+            // Remove then re-add to restart the bloom animation
+            touchGlow.classList.remove('active');
+            void touchGlow.offsetWidth; // force reflow so transition restarts
+            touchGlow.classList.add('active');
+
+            // Also light up the shimmer border at the touch/click point
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+
+            // Clear any previous fade timer and start a fresh auto-fade
+            clearTimeout(touchFadeTimer);
+            touchFadeTimer = setTimeout(() => {
+                touchGlow.classList.remove('active');
+            }, 900);
+        }
+
+        // Mouse click for PC
+        card.addEventListener('mousedown', (e) => {
+            const targetEl = e.target;
+            const isBareGlass = (targetEl === card || targetEl === touchGlow);
+            if (!isBareGlass) return;
+
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            triggerGlow(x, y);
+        });
+
+        // Touch for Mobile
+        card.addEventListener('touchstart', (e) => {
+            const targetEl = e.target;
+            const isBareGlass = (targetEl === card || targetEl === touchGlow);
+            if (!isBareGlass) return;
+
+            const touch = e.touches[0];
+            const rect = card.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            triggerGlow(x, y);
+        }, { passive: true });
+
+        // Mobile/Android: Automatic Flashlight Scanning Loop (every 2.5s)
+        if (window.innerWidth <= 768 || /Android/i.test(navigator.userAgent)) {
+            let startT = null;
+            function autoFlashlight(time) {
+                if (!startT) startT = time;
+                // 5500ms for a full iteration (5.5 seconds)
+                const progress = ((time - startT) % 5500) / 5500;
+
+                const w = card.offsetWidth;
+                const h = card.offsetHeight;
+                const perimeter = 2 * (w + h);
+                let dist = progress * perimeter;
+                let rx, ry;
+
+                // Trace the outer edges clockwise
+                if (dist <= w) {
+                    rx = dist; ry = 0;
+                } else if (dist <= w + h) {
+                    rx = w; ry = dist - w;
+                } else if (dist <= 2 * w + h) {
+                    rx = w - (dist - (w + h)); ry = h;
+                } else {
+                    rx = 0; ry = h - (dist - (2 * w + h));
+                }
+
+                card.style.setProperty('--mouse-x', `${rx}px`);
+                card.style.setProperty('--mouse-y', `${ry}px`);
+                requestAnimationFrame(autoFlashlight);
+            }
+            requestAnimationFrame(autoFlashlight);
+        }
+
+        const logo = document.getElementById('main-logo');
+        const tooltip = document.getElementById('logo-tooltip');
+        const tContent = tooltip.querySelector('.tooltip-content');
+        const tTimer = document.getElementById('tooltip-timer');
+        const tText = document.getElementById('timer-text');
+        const tMsg = document.getElementById('tooltip-message');
+
+        let countdownInterval;
+        let tooltipX = 0, tooltipY = 0;
+        let hoveringTooltip = false;
+        const PORTFOLIO_URL = 'https://leonelferreira0373.github.io/Leonel-Ferreira-Portfolio/';
+
+        // Entire tooltip is the click target — opens portfolio when timer is done
+        tooltip.addEventListener('click', (e) => {
+            if (tooltip.classList.contains('clickable-active')) {
+                e.preventDefault();
+                e.stopPropagation();
+                window.open(PORTFOLIO_URL, '_blank');
+            }
+        });
+
+        logo.addEventListener('mouseenter', () => {
+            tooltip.style.opacity = '1';
+            startTimer();
+        });
+
+        logo.addEventListener('mouseleave', () => {
+            // If tooltip is clickable, don't hide yet — let the user reach it
+            if (tooltip.classList.contains('clickable-active')) {
+                // Give a short grace period; if mouse lands on tooltip it stays
+                setTimeout(() => {
+                    if (!hoveringTooltip) {
+                        tooltip.style.opacity = '0';
+                        resetTimer();
+                    }
+                }, 300);
+                return;
+            }
+            tooltip.style.opacity = '0';
+            resetTimer();
+        });
+
+        // Keep tooltip alive when hovering over it
+        tooltip.addEventListener('mouseenter', () => {
+            hoveringTooltip = true;
+            tooltip.style.opacity = '1';
+        });
+
+        tooltip.addEventListener('mouseleave', () => {
+            hoveringTooltip = false;
+            tooltip.style.opacity = '0';
+            resetTimer();
+        });
+
+        function startTimer() {
+            let timeLeft = 3;
+            tText.innerText = timeLeft + 's';
+            tContent.classList.remove('message-mode');
+            tTimer.classList.remove('hidden');
+            tMsg.classList.add('hidden');
+
+            // Countdown active: show not-allowed cursor
+            tooltip.classList.add('countdown-active');
+            tooltip.classList.remove('clickable-active');
+
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft > 0) {
+                    tText.innerText = timeLeft + 's';
+                } else {
+                    clearInterval(countdownInterval);
+                    tContent.classList.add('message-mode');
+                    tTimer.classList.add('hidden');
+                    tMsg.classList.remove('hidden');
+
+                    // Timer done: remove not-allowed, make link clickable
+                    tooltip.classList.remove('countdown-active');
+                    tooltip.classList.add('clickable-active');
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(countdownInterval);
+            tooltip.classList.remove('countdown-active');
+            tooltip.classList.remove('clickable-active');
+        }
+
+        // Magnetic Evasion + Iridescent Tracking
+        document.addEventListener('mousemove', (e) => {
+            const rect = logo.getBoundingClientRect();
+            const cardRect = card.getBoundingClientRect();
+
+            // Initial tooltip position (centered above logo)
+            let targetX = (rect.left + rect.width / 10) - cardRect.left;
+            let targetY = rect.top - cardRect.top - 10;
+
+            // Magnetic Repulsion — always active
+            const dist = Math.sqrt(Math.pow(e.clientX - (cardRect.left + targetX), 2) + Math.pow(e.clientY - (cardRect.top + targetY), 2));
+            const repelRadius = 300;
+
+            if (dist < repelRadius) {
+                const force = (repelRadius - dist) / repelRadius;
+                const angle = Math.atan2((cardRect.top + targetY) - e.clientY, (cardRect.left + targetX) - e.clientX);
+                targetX += Math.cos(angle) * force * 15;
+                targetY += Math.sin(angle) * force * 15;
+            }
+
+            tooltip.style.left = `${targetX}px`;
+            tooltip.style.top = `${targetY}px`;
+
+            // Iridescent Tracking
+            const tRect = tooltip.getBoundingClientRect();
+            tooltip.style.setProperty('--t-mx', `${e.clientX - tRect.left}px`);
+            tooltip.style.setProperty('--t-my', `${e.clientY - tRect.top}px`);
+            tooltip.style.setProperty('--t-iri', dist < 150 ? '1' : '0');
+        });
+
+
+
+    </script>
+</body>
+
+</html>

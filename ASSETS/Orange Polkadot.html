@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dot Matrix Metallic Background</title>
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            min-height: 100dvh;
+            font-family: system-ui, sans-serif;
+            color: #eee;
+        }
+
+        .background {
+            background-color: #030303;
+            /* near-black base */
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+            /* optional — allows clicks through */
+            overflow: hidden;
+        }
+
+        .background::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+
+            /* The color sources that paint the dots */
+            background-image:
+                /* 1. Top-left metallic beam */
+                linear-gradient(135deg,
+                    rgb(255, 255, 255) 0%,
+                    rgba(100, 105, 115, 0.15) 35%,
+                    transparent 60%),
+                /* 2. Top-right dim ambient */
+                radial-gradient(ellipse 50% 50% at 80% 20%,
+                    rgba(60, 60, 65, 0.5) 0%,
+                    transparent 80%),
+                /* 3. Bottom-right warm orange glow */
+                radial-gradient(ellipse 70% 70% at 80% 80%,
+                    rgb(255, 140, 0) 0%,
+                    transparent 80%),
+                /* 4. Bottom-left dim ambient */
+                radial-gradient(ellipse 50% 50% at 20% 80%,
+                    rgba(60, 60, 65, 0.5) 0%,
+                    transparent 80%),
+                /* 5. Center soft orange core */
+                radial-gradient(circle at 50% 50%,
+                    rgba(242, 127, 13, 0.4) 0%,
+                    transparent 80%);
+
+            /* The sphere-shaped dot mask — this is the key part */
+            -webkit-mask-image: radial-gradient(circle at 35% 35%,
+                    rgba(255, 255, 255, 1) 0%,
+                    rgba(255, 255, 255, 0.8) 0.5px,
+                    transparent 1px);
+            -webkit-mask-size: 10px 10px;
+
+            mask-image: radial-gradient(circle at 35% 35%,
+                    rgba(255, 255, 255, 1) 0%,
+                    rgba(255, 255, 255, 0.8) 0.5px,
+                    transparent 1px);
+            mask-size: 10px 10px;
+        }
+
+        /* Optional: smooth fade-out at the bottom (prevents harsh cutoff) */
+        .background::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(to bottom, transparent 75%, #030303 100%);
+            z-index: 1;
+        }
+
+        /* Just for demo — place your content here */
+        main {
+            position: relative;
+            z-index: 10;
+            min-height: 100dvh;
+            display: grid;
+            place-items: center;
+            padding: 2rem;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="background"></div>
+
+    <main>
+        <h1>Orange Polkadot</h1>
+    </main>
+
+</body>
+
+</html>

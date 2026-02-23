@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>VAPE EXPRESS | Dashboard</title>
+    <link rel="icon" type="image/png" href="IMG/VAPE-EXPRESS.png">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f27f0d",
+                        "background-dark": "#0a0a0a",
+                        "card-dark": "#111111",
+                        "border-dark": "#1e1e1e",
+                        "apple-gray": "#F5F5F7",
+                    },
+                    fontFamily: {
+                        "display": ["-apple-system", "BlinkMacSystemFont", "SF Pro Display", "SF Pro Text", "Helvetica Neue", "Arial", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        /* ── Dot Background ─────────────────────── */
+        .dot-bg::before {
+            content: "";
+            position: fixed; inset: 0;
+            pointer-events: none; z-index: 0;
+            background-image:
+                radial-gradient(ellipse 70% 60% at 85% 85%, rgba(242,127,13,0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 15% 15%, rgba(255,255,255,0.04) 0%, transparent 70%),
+                radial-gradient(circle at 50% 50%, rgba(242,127,13,0.06) 0%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at 35% 35%, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 0.5px, transparent 1px);
+            -webkit-mask-size: 10px 10px;
+            mask-image: radial-gradient(circle at 35% 35%, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 0.5px, transparent 1px);
+            mask-size: 10px 10px;
+        }
+
+        /* ── Glass Card ─────────────────────────── */
+        .glass-card {
+            background: rgba(14,14,14,0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.06);
+            position: relative;
+        }
+        .glass-card::after {
+            content: ""; position: absolute; inset: 0;
+            border-radius: inherit; padding: 1px;
+            background: radial-gradient(400px circle at var(--mx,-400px) var(--my,-400px), rgba(255,255,255,0.55), transparent 40%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out; mask-composite: exclude;
+            pointer-events: none; opacity: 0; transition: opacity 0.4s; z-index: 50;
+        }
+        .glass-card:hover::after { opacity: 1; }
+
+
+
+        /* ── Sidebar Link ───────────────────────── */
+        .sidebar-link {
+            display:flex;align-items:center;gap:12px;
+            padding:12px 14px;border-radius:12px;
+            font-size:13px;font-weight:500;
+            color:rgba(245,245,247,0.55);text-decoration:none;
+            transition:all 0.3s ease;
+            position: relative; overflow: hidden;
+            background: rgba(14,14,14,0.7); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .sidebar-link:hover, .sidebar-link.active { 
+            background: rgba(20,20,20,0.9); color: #F5F5F7; 
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 0 15px rgba(255,255,255,0.05), inset 0 0 10px rgba(255,255,255,0.02);
+        }
+
+        /* ── PFP Avatar (Sign-up style) ─────────── */
+        .pfp-mini {
+            position: relative; width: 42px; height: 42px; flex-shrink: 0;
+        }
+        .pfp-mini-ring {
+            position: absolute; inset: -3px;
+            border: 1.5px dashed rgba(255,255,255,0.25);
+            border-radius: 50%; pointer-events: none;
+            transition: opacity 0.4s;
+        }
+        .pfp-mini:hover .pfp-mini-ring { opacity: 0; }
+        .pfp-mini-iri {
+            position: absolute; inset: -4px;
+            border-radius: 50%; padding: 1.5px;
+            background: conic-gradient(from 0deg,hsl(280,100%,78%),hsl(200,100%,72%),hsl(160,100%,68%),hsl(50,100%,78%),hsl(330,100%,78%),hsl(280,100%,78%));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out; mask-composite: exclude;
+            opacity: 0; animation: iriSpin 4s linear infinite; transition: opacity 0.4s;
+        }
+        .pfp-mini:hover .pfp-mini-iri { opacity: 1; }
+        .pfp-mini-face {
+            width: 100%; height: 100%; border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #2a2a2a 0%, #0a0a0a 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6), inset 0 1px 3px rgba(255,255,255,0.08);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5);
+            position: relative; z-index: 2;
+        }
+
+        /* ── Utilities ──────────────────────────── */
+        .progress-track { background:rgba(0,0,0,0.5); border-radius:999px; position:relative; overflow:visible; border:1px solid rgba(255,255,255,0.06); box-shadow: inset 0 2px 4px rgba(0,0,0,0.8), 0 1px 0 rgba(255,255,255,0.05); }
+        .progress-fill  { background:linear-gradient(90deg, #d9700b, #f27f0d); border-radius:999px; position:absolute; top:0; left:0; bottom:0; box-shadow: 0 0 12px rgba(242,127,13,0.8), inset 0 2px 2px rgba(255,255,255,0.4), inset 0 -2px 2px rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.3); transition: width 1s ease; }
+        .progress-fill-green { background:linear-gradient(90deg, #16a34a, #22c55e); border-radius:999px; position:absolute; top:0; left:0; bottom:0; box-shadow: 0 0 12px rgba(34,197,94,0.8), inset 0 2px 2px rgba(255,255,255,0.4), inset 0 -2px 2px rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.3); transition: width 1s ease; }
+        .badge { display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em; }
+        .material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; }
+
+        /* ── Responsive ─────────────────────────── */
+        @media (max-width: 767px) {
+            .sidebar-desktop { display: none !important; }
+            .main-area { margin-left: 0 !important; padding: 14px !important; padding-bottom: 76px !important; }
+            .bottom-nav { display: flex !important; }
+        }
+        @media (min-width: 768px) {
+            .bottom-nav { display: none !important; }
+        }
+    </style>
+</head>
+
+<body class="dot-bg font-display antialiased text-apple-gray">
+
+    <!-- ══════════ SIDEBAR (Desktop) ══════════ -->
+    <aside class="sidebar-desktop fixed left-0 top-0 h-full w-64 flex flex-col z-50 border-r border-white/[0.06]"
+        style="background:rgba(10,10,10,0.92);backdrop-filter:blur(16px);">
+
+        <!-- Logo -->
+        <div class="px-4 py-4 flex items-center gap-2.5 border-b border-white/[0.06]">
+            <img src="SVG/VAPE-EXPRESS.svg" alt="Logo" class="h-56 w-auto" onerror="this.style.display='none'">
+
+        </div>
+
+        <!-- Nav -->
+        <nav class="flex-1 px-3 py-6 flex flex-col justify-between overflow-y-auto">
+            <a href="Profile.html" class="sidebar-link active">
+                <span class="material-symbols-outlined text-[18px]">dashboard</span> Dashboard
+            </a>
+            <a href="Shop.html" class="sidebar-link">
+                <span class="material-symbols-outlined text-[18px]">shopping_bag</span> Shop Now
+            </a>
+            <a href="#" class="sidebar-link">
+                <span class="material-symbols-outlined text-[18px]">bluetooth_connected</span> My Devices
+            </a>
+            <a href="#" class="sidebar-link">
+                <span class="material-symbols-outlined text-[18px]">redeem</span> Rewards
+            </a>
+            <a href="#" class="sidebar-link">
+                <span class="material-symbols-outlined text-[18px]">history</span> Orders
+            </a>
+        </nav>
+
+        <!-- User Profile Footer -->
+        <div class="px-4 py-4 border-t border-white/[0.06]">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="pfp-mini">
+                    <div class="pfp-mini-ring"></div>
+                    <div class="pfp-mini-iri"></div>
+                    <div class="pfp-mini-face">AR</div>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-[12px] font-bold text-white truncate">Alex Rivera</p>
+                    <p class="text-[9px] text-apple-gray opacity-50">Elite Member</p>
+                </div>
+            </div>
+            <button
+                class="glass-card w-full rounded-xl py-2 text-[11px] font-bold text-apple-gray hover:text-white transition-colors">Quick
+                Reorder</button>
+        </div>
+    </aside>
+
+    <!-- ══════════ MAIN CONTENT ══════════ -->
+    <main class="main-area ml-64 px-5 pt-5 pb-6 relative z-10 min-h-screen">
+
+        <!-- Header -->
+        <header class="flex justify-between items-start mb-5">
+            <div>
+                <div class="flex items-center gap-3">
+                    <h1 class="text-xl font-black text-white uppercase tracking-tight">Dashboard</h1>
+                    <button
+                        class="glass-card w-7 h-7 rounded-lg flex items-center justify-center text-apple-gray hover:text-white transition-colors"
+                        title="Edit Dashboard">
+                        <span class="material-symbols-outlined text-[14px]">edit</span>
+                    </button>
+                </div>
+                <div class="flex items-center gap-1.5 mt-1 text-[11px] text-apple-gray font-medium">
+                    <span
+                        class="cursor-default opacity-50 transition-all duration-300 hover:text-white hover:opacity-100 hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]">Welcome
+                        back, Alex.</span>
+                    <span class="w-[1px] h-[10px] bg-white/20"></span>
+                    <a href="#"
+                        class="cursor-pointer opacity-50 transition-all duration-300 hover:text-white hover:opacity-100 hover:drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]">Your
+                        devices are synced.</a>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button
+                    class="glass-card w-9 h-9 rounded-xl flex items-center justify-center text-apple-gray hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">notifications</span>
+                </button>
+                <button
+                    class="glass-card w-9 h-9 rounded-xl flex items-center justify-center text-apple-gray hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">settings</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- ── TOP GRID ── -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+
+            <!-- Token Balance -->
+            <div class="glass-card rounded-xl p-4 relative overflow-hidden">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-[9px] tracking-widest text-apple-gray opacity-50">Token
+                        balance</span>
+                    <span class="material-symbols-outlined text-primary text-[16px]">stars</span>
+                </div>
+                <div class="flex items-end gap-2 mb-3">
+                    <span class="text-3xl font-black text-white">450</span>
+                    <span class="text-[10px] text-apple-gray opacity-50 mb-0.5">Tokens</span>
+                </div>
+                <div class="progress-track h-1.5 mb-3">
+                    <div class="progress-fill h-full" style="width:75%"></div>
+                </div>
+                <button
+                    class="glass-card w-full rounded-xl py-2 text-[11px] text-apple-gray hover:text-white transition-colors">Redeem
+                    rewards</button>
+                <div
+                    class="absolute -right-5 -bottom-5 w-20 h-20 bg-primary/20 blur-2xl rounded-full pointer-events-none">
+                </div>
+            </div>
+
+            <!-- Shipping Status -->
+            <div class="glass-card rounded-xl p-4">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-[9px] tracking-widest text-apple-gray opacity-50">Shipping
+                        status</span>
+                    <span class="badge" style="background:rgba(34,197,94,0.12);color:#22c55e;">In Transit</span>
+                </div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-[16px]">local_shipping</span>
+                    </div>
+                    <div>
+                        <p class="text-[9px] text-apple-gray opacity-50">Expected delivery</p>
+                        <p class="text-[12px] text-white">Thursday, Oct 24th</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between relative px-1">
+                    <div class="absolute top-1/2 left-0 w-full h-px bg-white/10 -translate-y-1/2"></div>
+                    <div class="absolute top-1/2 left-0 w-2/3 h-px bg-primary -translate-y-1/2"></div>
+                    <div class="w-2 h-2 rounded-full bg-primary relative z-10 ring-2 ring-[#111]"></div>
+                    <div class="w-2 h-2 rounded-full bg-primary relative z-10 ring-2 ring-[#111]"></div>
+                    <div class="w-2 h-2 rounded-full bg-primary relative z-10 ring-2 ring-[#111]"></div>
+                    <div class="w-2 h-2 rounded-full bg-white/20 relative z-10 ring-2 ring-[#111]"></div>
+                </div>
+                <div
+                    class="flex justify-between mt-1.5 text-[9px] text-apple-gray font-medium tracking-wider w-full relative z-20">
+                    <a href="#paid"
+                        class="opacity-40 hover:opacity-100 hover:text-white transition-all duration-300">Paid</a>
+                    <a href="#shipped"
+                        class="opacity-40 hover:opacity-100 hover:text-white transition-all duration-300">Shipped</a>
+                    <a href="#near"
+                        class="opacity-40 hover:opacity-100 hover:text-white transition-all duration-300">Near</a>
+                    <a href="#arrived"
+                        class="opacity-40 hover:opacity-100 hover:text-white transition-all duration-300">Arrived</a>
+                </div>
+            </div>
+
+            <!-- Lifetime Savings -->
+            <div class="glass-card rounded-xl p-4 flex flex-col justify-between">
+                <div>
+                    <span class="text-[9px] tracking-widest text-apple-gray opacity-50">Lifetime
+                        savings</span>
+                    <div class="flex items-end gap-2 mt-2">
+                        <span class="text-3xl font-black text-white">$124.50</span>
+                        <span class="text-[10px] text-green-500 flex items-center gap-0.5 mb-0.5">
+                            <span class="material-symbols-outlined text-[12px]">trending_up</span> 12%
+                        </span>
+                    </div>
+                </div>
+                <p class="text-[10px] text-apple-gray opacity-40 italic mt-3">"You've saved enough for 3 free pods!"</p>
+            </div>
+        </div>
+
+        <!-- ── MIDDLE SECTION ── -->
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-3 mb-4">
+
+            <!-- Device Stats (3 cols wide on desktop) -->
+            <div class="glass-card rounded-xl overflow-hidden lg:col-span-3">
+                <div class="px-4 py-3 border-b border-white/[0.06] flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-[16px]">vape_free</span>
+                        <h2 class="text-[12px] font-bold text-white">CloudPro X2 Stats</h2>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="text-[9px] text-apple-gray opacity-50">Connected</span>
+                    </div>
+                </div>
+                <div class="p-4 grid grid-cols-2 gap-4">
+                    <div class="flex flex-col items-center justify-center">
+                        <div class="relative w-24 h-24 mb-2 flex flex-col items-center justify-center">
+                            <div class="absolute inset-0 rounded-full"
+                                style="background: conic-gradient(#f27f0d 82%, rgba(255,255,255,0.06) 0); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 2.5px)); mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 2.5px));">
+                            </div>
+                            <div class="relative z-10 flex flex-col items-center justify-center">
+                                <span class="text-lg font-black text-white">1,240</span>
+                                <span class="text-[8px] text-apple-gray opacity-50">Puffs
+                                    left</span>
+                            </div>
+                        </div>
+                        <p class="text-[9px] text-apple-gray opacity-40">82% capacity</p>
+                    </div>
+                    <div class="flex flex-col gap-3 justify-center">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-[9px] text-apple-gray opacity-50">Battery</span>
+                                <span class="text-[9px] text-white">85%</span>
+                            </div>
+                            <div class="progress-track h-1.5">
+                                <div class="progress-fill-green h-full" style="width:85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-[9px] text-apple-gray opacity-50">Coil life</span>
+                                <span class="text-[9px] text-primary">Replace soon</span>
+                            </div>
+                            <div class="progress-track h-1.5">
+                                <div class="progress-fill h-full" style="width:15%"></div>
+                            </div>
+                        </div>
+                        <button
+                            class="glass-card rounded-xl py-1.5 text-[10px] text-apple-gray hover:text-white flex items-center justify-center gap-1 transition-colors mt-1">
+                            <span class="material-symbols-outlined text-[13px]">refresh</span> Sync data
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column (2 cols wide on desktop) -->
+            <div class="flex flex-col gap-3 lg:col-span-2">
+                <!-- Favourite -->
+                <div class="glass-card rounded-xl p-4 flex items-center gap-3 flex-1">
+                    <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <span class="material-symbols-outlined text-primary text-2xl">icecream</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <span class="badge mb-0.5" style="background:rgba(242,127,13,0.12);color:#f27f0d;">Top
+                            Rated</span>
+                        <h3 class="text-[13px] font-black text-white mt-0.5 truncate">Mango Ice Delight</h3>
+                        <p class="text-[10px] text-apple-gray opacity-50">Purchased 12 times this year</p>
+                    </div>
+                    <button
+                        class="glass-card w-8 h-8 rounded-full flex items-center justify-center hover:text-primary transition-colors flex-shrink-0">
+                        <span class="material-symbols-outlined text-[15px]">add_shopping_cart</span>
+                    </button>
+                </div>
+                <!-- Next Tier -->
+                <div class="glass-card rounded-xl p-4 relative overflow-hidden flex-1 group">
+                    <div class="relative z-10">
+                        <h3 class="text-[12px] font-bold text-white mb-1">Next Tier: Vaping Legend</h3>
+                        <p class="text-[10px] text-apple-gray opacity-50 mb-3">150 tokens away from 20% off all juice
+                            for life.</p>
+                        <div class="progress-track h-1.5">
+                            <div class="progress-fill" style="width:65%;"></div>
+                        </div>
+                    </div>
+                    <span
+                        class="material-symbols-outlined absolute -right-2 -bottom-2 text-6xl text-white/[0.04] rotate-12 transition-all duration-500 group-hover:rotate-0 group-hover:-translate-y-1 group-hover:scale-110 group-hover:text-white/10">workspace_premium</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── RECENT PURCHASES ── -->
+        <section class="glass-card rounded-xl overflow-hidden">
+            <div class="px-4 py-3 border-b border-white/[0.06] flex justify-between items-center">
+                <h2 class="text-[12px] font-bold text-white tracking-wide">Recent Purchases</h2>
+                <a href="#" class="text-[10px] font-bold text-primary hover:underline">View All</a>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left min-w-[420px]">
+                    <thead class="border-b border-white/[0.06]">
+                        <tr>
+                            <th
+                                class="px-4 py-2.5 text-[8px] font-black uppercase tracking-widest text-apple-gray opacity-40">
+                                Order ID</th>
+                            <th
+                                class="px-4 py-2.5 text-[8px] font-black uppercase tracking-widest text-apple-gray opacity-40">
+                                Product</th>
+                            <th
+                                class="px-4 py-2.5 text-[8px] font-black uppercase tracking-widest text-apple-gray opacity-40">
+                                Date</th>
+                            <th
+                                class="px-4 py-2.5 text-[8px] font-black uppercase tracking-widest text-apple-gray opacity-40">
+                                Status</th>
+                            <th
+                                class="px-4 py-2.5 text-[8px] font-black uppercase tracking-widest text-apple-gray opacity-40">
+                                Total</th>
+                            <th
+                                class="px-4 py-2.5 text-right text-[8px] font-black uppercase tracking-widest text-apple-gray opacity-40">
+                                Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/[0.04]">
+                        <tr class="hover:bg-white/[0.03] transition-colors">
+                            <td class="px-4 py-3 text-[10px] text-apple-gray opacity-70">#VC-98421</td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center gap-2">
+                                    <div
+                                        class="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-[10px]">
+                                        📦</div><span class="text-[11px] text-white">Mango Ice (3-Pack)</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 text-[10px] text-apple-gray opacity-50">Oct 12, 2023</td>
+                            <td class="px-4 py-3"><span class="badge"
+                                    style="background:rgba(34,197,94,0.1);color:#22c55e;">Delivered</span></td>
+                            <td class="px-4 py-3 text-[11px] font-bold text-white">$44.99</td>
+                            <td class="px-4 py-3 text-right"><button
+                                    class="text-primary text-[10px] font-bold hover:underline">Reorder</button></td>
+                        </tr>
+                        <tr class="hover:bg-white/[0.03] transition-colors">
+                            <td class="px-4 py-3 text-[10px] text-apple-gray opacity-70">#VC-98310</td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center gap-2">
+                                    <div
+                                        class="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-[10px]">
+                                        ⚡</div><span class="text-[11px] text-white">CloudPro Coils</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 text-[10px] text-apple-gray opacity-50">Sep 28, 2023</td>
+                            <td class="px-4 py-3"><span class="badge"
+                                    style="background:rgba(34,197,94,0.1);color:#22c55e;">Delivered</span></td>
+                            <td class="px-4 py-3 text-[11px] font-bold text-white">$12.50</td>
+                            <td class="px-4 py-3 text-right"><button
+                                    class="text-primary text-[10px] font-bold hover:underline">Reorder</button></td>
+                        </tr>
+                        <tr class="hover:bg-white/[0.03] transition-colors">
+                            <td class="px-4 py-3 text-[10px] text-apple-gray opacity-70">#VC-98219</td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center gap-2">
+                                    <div
+                                        class="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-[10px]">
+                                        🍓</div><span class="text-[11px] text-white">Berry Blast 30ml</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 text-[10px] text-apple-gray opacity-50">Sep 15, 2023</td>
+                            <td class="px-4 py-3"><span class="badge"
+                                    style="background:rgba(34,197,94,0.1);color:#22c55e;">Delivered</span></td>
+                            <td class="px-4 py-3 text-[11px] font-bold text-white">$18.99</td>
+                            <td class="px-4 py-3 text-right"><button
+                                    class="text-primary text-[10px] font-bold hover:underline">Reorder</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ══════════ MOBILE BOTTOM NAV ══════════ -->
+    <nav class="bottom-nav fixed bottom-0 left-0 right-0 z-50 border-t border-white/[0.06]"
+        style="background:rgba(10,10,10,0.92);backdrop-filter:blur(16px);">
+        <div class="flex items-center justify-between px-6 py-2 w-full">
+            <a href="Profile.html" class="flex flex-col items-center gap-0.5 text-primary py-1">
+                <span class="material-symbols-outlined text-[20px]">dashboard</span>
+                <span class="text-[9px]">Home</span>
+            </a>
+            <a href="Shop.html" class="flex flex-col items-center gap-0.5 text-apple-gray opacity-50 py-1">
+                <span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+                <span class="text-[9px]">Shop</span>
+            </a>
+            <a href="#" class="flex flex-col items-center gap-0.5 text-apple-gray opacity-50 py-1">
+                <span class="material-symbols-outlined text-[20px]">redeem</span>
+                <span class="text-[9px]">Rewards</span>
+            </a>
+            <a href="#" class="flex flex-col items-center gap-0.5 text-apple-gray opacity-50 py-1">
+                <span class="material-symbols-outlined text-[20px]">history</span>
+                <span class="text-[9px]">Orders</span>
+            </a>
+            <a href="Log-In.html" class="flex flex-col items-center gap-0.5 text-apple-gray opacity-50 py-1">
+                <span class="material-symbols-outlined text-[20px]">person</span>
+                <span class="text-[9px]">Account</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const r = card.getBoundingClientRect();
+                card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+                card.style.setProperty('--my', `${e.clientY - r.top}px`);
+            });
+        });
+    </script>
+</body>
+
+</html>

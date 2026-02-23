@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(15, 15, 15, 0.35);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Effect #3 & #4: The clickable container with Magnetic & Tilt transforms */
+        .effect-container {
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            padding: 16px 42px;
+
+            /* Glassmorphism Base */
+            background: var(--card-bg);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+
+            /* Transformation vars driven by JS */
+            transform: translate(var(--repel-x, 0px), var(--repel-y, 0px)) perspective(600px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+            transform-style: preserve-3d;
+            transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Effect #2 & #10: Iridescent Border via Masking */
+        .effect-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1.5px;
+            /* Border thickness */
+            pointer-events: none;
+            z-index: 10;
+
+            /* Rainbow Gradient stops */
+            background: radial-gradient(120px circle at var(--mx, -200px) var(--my, -200px),
+                    hsl(280, 100%, 78%) 0%,
+                    /* violet */
+                    hsl(200, 100%, 72%) 20%,
+                    /* cyan */
+                    hsl(160, 100%, 68%) 38%,
+                    /* mint */
+                    hsl(50, 100%, 78%) 58%,
+                    /* gold */
+                    hsl(330, 100%, 78%) 78%,
+                    /* pink */
+                    transparent 92%);
+
+            /* The "Core Pattern" Mask Trick */
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+
+            /* Proximity-driven reveal */
+            opacity: var(--iri-opacity, 0);
+            transition: opacity 0.6s ease;
+        }
+
+        .button-text {
+            color: white;
+            font-family: sans-serif;
+            font-weight: 500;
+            display: block;
+            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="#" class="effect-container">
+        <span class="button-text">Example</span>
+    </a>
+
+    <script>
+        const container = document.querySelector('.effect-container');
+
+        document.addEventListener('mousemove', (e) => {
+            const rect = container.getBoundingClientRect();
+
+            // 1. Mouse positioning for Iridescent Arc
+            const mx = e.clientX - rect.left;
+            const my = e.clientY - rect.top;
+            container.style.setProperty('--mx', `${mx}px`);
+            container.style.setProperty('--my', `${my}px`);
+
+            // Center calculation for Distance-based effects
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const dist = Math.sqrt((e.clientX - centerX) ** 2 + (e.clientY - centerY) ** 2);
+
+            // 2. Proximity Reveal: Fade in rainbow at 250px, full at 60px
+            const iriMax = 250;
+            const iriMin = 60;
+            let opacity = 0;
+            if (dist < iriMin) opacity = 1;
+            else if (dist < iriMax) opacity = 1 - ((dist - iriMin) / (iriMax - iriMin));
+            container.style.setProperty('--iri-opacity', opacity);
+
+            // 3. Magnetic Repulsion: Max push of 7.7px within 300px
+            const repelRadius = 300;
+            const maxRepel = 7.7;
+
+            if (dist < repelRadius) {
+                const strength = (1 - dist / repelRadius) * maxRepel;
+                const dx = (centerX - e.clientX) / dist;
+                const dy = (centerY - e.clientY) / dist;
+                container.style.setProperty('--repel-x', `${dx * strength}px`);
+                container.style.setProperty('--repel-y', `${dy * strength}px`);
+
+                // 4. 3D Tilt: 13-degree max rotation with distance falloff
+                const maxTilt = 13;
+                const falloff = 1 - dist / repelRadius;
+                const normX = (e.clientX - centerX) / (rect.width / 2);
+                const normY = (e.clientY - centerY) / (rect.height / 2);
+                container.style.setProperty('--tilt-x', `${-normY * maxTilt * falloff}deg`);
+                container.style.setProperty('--tilt-y', `${normX * maxTilt * falloff}deg`);
+            } else {
+                container.style.setProperty('--repel-x', '0px');
+                container.style.setProperty('--repel-y', '0px');
+                container.style.setProperty('--tilt-x', '0deg');
+                container.style.setProperty('--tilt-y', '0deg');
+            }
+        });
+    </script>
+</body>
+
+</html>

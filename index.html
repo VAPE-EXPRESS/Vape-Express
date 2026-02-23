@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAPE EXPRESS | Welcome</title>
+    <link rel="icon" type="image/svg+xml" href="SVG/VAPE-EXPRESS.svg">
+    <style>
+        :root {
+            /* METALLIC DARK BASE */
+            --bg-color: #030303;
+            --bar-bg: linear-gradient(to bottom, #0a0a0a 0%, #252525 50%, #050505 100%);
+            --progress-gradient: linear-gradient(90deg, #cc3d00, #ffcc00);
+            --primary-orange: #f27f0d;
+            /* DARKER ORANGE FOR SHROUDED AREA */
+            --dim-orange: #4a2604;
+        }
+
+        body {
+            background: var(--bg-color);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 1. THE MAIN BACKGROUND (SHROUDED/DARK) */
+        .background-layer {
+            position: fixed;
+            inset: 0;
+            /* CENTERED METALLIC GRADIENT */
+            background-image:
+                radial-gradient(circle at center, rgba(40, 40, 45, 0.4) 0%, transparent 60%),
+                /* Using the darker orange for the dots in the 'hidden' area */
+                radial-gradient(circle at center, var(--dim-orange) 0.6px, transparent 1px);
+            background-size: 100% 100%, 14px 14px;
+            z-index: -2;
+        }
+
+        /* 2. THE LIGHT REVEAL LAYER (LIGHTER POLKADOTS) */
+        .reveal-layer {
+            position: fixed;
+            inset: 0;
+            /* Real orange dots for the lit area */
+            background-image: radial-gradient(circle at center, var(--primary-orange) 0.6px, transparent 1px);
+            background-size: 14px 14px;
+            z-index: -1;
+            /* Mask creates the flashlight effect */
+            -webkit-mask-image: radial-gradient(circle 80px at var(--light-x, -200px) var(--light-y, -200px),
+                    black 0%,
+                    transparent 100%);
+            mask-image: radial-gradient(circle 80px at var(--light-x, -200px) var(--light-y, -200px),
+                    black 0%,
+                    transparent 100%);
+            pointer-events: none;
+        }
+
+        /* 3. VIGNETTE FOR EXTREMITIES */
+        .vignette {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.85) 80%);
+        }
+
+        .premium-loader-container {
+            position: relative;
+            z-index: 10;
+            width: 100px;
+            height: 10px;
+            background: var(--bar-bg);
+            border-radius: 100px;
+            padding: 2px;
+            box-shadow:
+                inset 0 1px 3px rgba(0, 0, 0, 0.9),
+                0 1px 1px rgba(255, 255, 255, 0.03);
+            cursor: not-allowed;
+            transform: translate(var(--repel-x, 0px), var(--repel-y, 0px));
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--progress-gradient);
+            border-radius: 100px;
+            box-shadow: 0 0 12px rgba(255, 100, 0, 0.2);
+            animation: load 5s forwards ease-in-out;
+        }
+
+        @keyframes load {
+            0% {
+                width: 0%;
+            }
+
+            70% {
+                width: 90%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        .premium-loader-container::after {
+            content: '';
+            position: absolute;
+            inset: -1.5px;
+            border-radius: 100px;
+            padding: 1.5px;
+            pointer-events: none;
+            z-index: 10;
+            /* 3000px detection circle */
+            background: radial-gradient(3000px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px),
+                    rgba(255, 255, 255, 0.5),
+                    transparent 60%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            /* Always active, let the massive gradient handle the proximity reveal */
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-layer"></div>
+    <div class="reveal-layer"></div>
+    <div class="vignette"></div>
+
+    <div class="premium-loader-container">
+        <div class="progress-fill"></div>
+    </div>
+
+    <script>
+        const loader = document.querySelector('.premium-loader-container');
+        const progressFill = document.querySelector('.progress-fill');
+        const revealLayer = document.querySelector('.reveal-layer');
+
+        let mouse = { x: -200, y: -200 };
+        let smoothedMouse = { x: -200, y: -200 };
+        const lerpFactor = 0.08;
+
+        document.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+
+            // Loader reactive parts
+            const rect = loader.getBoundingClientRect();
+            loader.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+            loader.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const dist = Math.sqrt((e.clientX - centerX) ** 2 + (e.clientY - centerY) ** 2);
+
+            // Engages from 3000px away
+            const repelRadius = 3000;
+            if (dist < repelRadius) {
+                const strength = (1 - dist / repelRadius) * 12;
+                loader.style.setProperty('--repel-x', `${((centerX - e.clientX) / dist) * strength}px`);
+                loader.style.setProperty('--repel-y', `${((centerY - e.clientY) / dist) * strength}px`);
+            } else {
+                loader.style.setProperty('--repel-x', '0px');
+                loader.style.setProperty('--repel-y', '0px');
+            }
+        });
+
+        function animate() {
+            // Smoothly interpolate light position
+            smoothedMouse.x += (mouse.x - smoothedMouse.x) * lerpFactor;
+            smoothedMouse.y += (mouse.y - smoothedMouse.y) * lerpFactor;
+
+            // Note: Light center is naturally aligned here, 
+            // but we can add +10 if you still want that slight mouse offset
+            revealLayer.style.setProperty('--light-x', `${smoothedMouse.x + 8}px`);
+            revealLayer.style.setProperty('--light-y', `${smoothedMouse.y + 8}px`);
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        progressFill.addEventListener('animationend', () => {
+            document.body.style.transition = 'opacity 0.6s ease';
+            document.body.style.opacity = '0';
+            setTimeout(() => { window.location.href = 'Log-In.html'; }, 600);
+        });
+    </script>
+</body>
+
+</html>

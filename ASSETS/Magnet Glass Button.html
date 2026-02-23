@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(15, 15, 15, 0.35);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Effect #1 & #4: 3D Tilt & Glass Morphism Base */
+        .premium-button {
+            all: unset;
+            cursor: pointer;
+            position: relative;
+            padding: 16px 42px;
+            color: white;
+            font-family: sans-serif;
+            font-weight: 500;
+            background: var(--card-bg);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+
+            /* Effect #3: Magnetic Repulsion & 3D Tilt Transform */
+            transform: translate(var(--repel-x, 0px), var(--repel-y, 0px)) perspective(600px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+            transform-style: preserve-3d;
+            transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Effect #1 & #10: Reactive Shimmer Border (Mask Trick) */
+        .premium-button::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1.5px;
+            /* Border thickness */
+            pointer-events: none;
+            z-index: 10;
+
+            /* The Shimmer Gradient */
+            background: radial-gradient(150px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+                    rgba(255, 255, 255, 0.8),
+                    transparent 40%);
+
+            /* The Mask Trick: Subtracts the center, leaves the border */
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .premium-button:hover::after {
+            opacity: 1;
+        }
+
+        .button-text {
+            display: block;
+            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="premium-button">
+        <span class="button-text">Example</span>
+    </button>
+
+    <script>
+        const btn = document.querySelector('.premium-button');
+
+        document.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+
+            // 1. Calculate relative mouse position for the Shimmer (Effect #1)
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            btn.style.setProperty('--mouse-x', `${x}px`);
+            btn.style.setProperty('--mouse-y', `${y}px`);
+
+            // 2. Calculate distance from center for Repulsion and Tilt
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const dist = Math.sqrt((e.clientX - centerX) ** 2 + (e.clientY - centerY) ** 2);
+
+            // Effect #3: Magnetic Repulsion Logic
+            const repelRadius = 300;
+            const maxRepel = 7.7;
+
+            if (dist < repelRadius) {
+                const strength = (1 - dist / repelRadius) * maxRepel;
+                const dx = (centerX - e.clientX) / dist;
+                const dy = (centerY - e.clientY) / dist;
+                btn.style.setProperty('--repel-x', `${dx * strength}px`);
+                btn.style.setProperty('--repel-y', `${dy * strength}px`);
+
+                // Effect #4: 3D Tilt Logic
+                const maxTilt = 13;
+                const normX = (e.clientX - centerX) / (rect.width / 2);
+                const normY = (e.clientY - centerY) / (rect.height / 2);
+                const tiltY = normX * maxTilt * (1 - dist / repelRadius);
+                const tiltX = -normY * maxTilt * (1 - dist / repelRadius);
+
+                btn.style.setProperty('--tilt-x', `${tiltX}deg`);
+                btn.style.setProperty('--tilt-y', `${tiltY}deg`);
+            } else {
+                btn.style.setProperty('--repel-x', '0px');
+                btn.style.setProperty('--repel-y', '0px');
+                btn.style.setProperty('--tilt-x', '0deg');
+                btn.style.setProperty('--tilt-y', '0deg');
+            }
+        });
+    </script>
+</body>
+
+</html>

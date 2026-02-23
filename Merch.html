@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Merchandise &amp; Rewards | Vape Co</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f27f0d",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221910",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .token-gradient {
+            background: linear-gradient(135deg, rgba(242, 127, 13, 0.2) 0%, rgba(34, 25, 16, 0) 100%);
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
+    <!-- Navigation -->
+    <header
+        class="sticky top-0 z-50 border-b border-slate-200 dark:border-white/10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-8">
+                    <div class="flex items-center gap-2 text-primary">
+                        <span class="material-symbols-outlined text-3xl font-bold">cloud</span>
+                        <h1 class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white uppercase">Vape
+                            Co</h1>
+                    </div>
+                    <nav class="hidden md:flex items-center gap-6">
+                        <a class="text-sm font-semibold hover:text-primary transition-colors" href="Shop.html">Shop</a>
+                        <a class="text-sm font-semibold text-primary" href="#">Merch &amp; Rewards</a>
+                        <a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Community</a>
+                    </nav>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="relative hidden sm:block">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                            <span class="material-symbols-outlined text-sm">search</span>
+                        </span>
+                        <input
+                            class="block w-full pl-10 pr-3 py-2 border-none bg-slate-100 dark:bg-white/5 rounded-lg text-sm focus:ring-2 focus:ring-primary"
+                            placeholder="Search gear..." type="text" />
+                    </div>
+                    <button class="relative p-2 text-slate-600 dark:text-slate-300 hover:text-primary">
+                        <span class="material-symbols-outlined">shopping_cart</span>
+                        <span
+                            class="absolute top-0 right-0 h-4 w-4 bg-primary text-[10px] font-bold text-white rounded-full flex items-center justify-center">3</span>
+                    </button>
+                    <div
+                        class="h-8 w-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center overflow-hidden">
+                        <img alt="Profile" data-alt="Close up portrait of a smiling man"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUP-V3j6mh_XUJ7mRcSMEMeg11NXJ5L92aI5ENGmxFn1If_hrhu5fw_DWS5YDDXxXk3ZmHPltnswG4MkOozZ__Xq69rl9Y0wVarUyXSfHB8gtw63qHHrnORYQkZa_ysoxWJUDdhFcSSa2U8Ay6q7Ta29xghNl8EovQItvBnfbrOtNYBiBblug9Qy9xLV1KKTvaAknb8MstwXmKTy41yrA4QofwUkc2aEVVrkS0S-tnzJGyeC98nxQ0gFJVFlTdNXeUbWGPq4IlOyA" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Breadcrumbs & Header -->
+        <nav class="flex text-sm font-medium text-slate-500 dark:text-slate-400 mb-4">
+            <a class="hover:text-primary" href="Landing-Page.html">Home</a>
+            <span class="mx-2">/</span>
+            <span class="text-slate-900 dark:text-slate-100">Merch &amp; Rewards</span>
+        </nav>
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+                <h2 class="text-4xl font-black tracking-tight mb-2">Lifestyle &amp; Exclusives</h2>
+                <p class="text-slate-500 dark:text-slate-400 max-w-xl">Rep the brand with our premium official
+                    merchandise or use your hard-earned tokens for limited edition drops.</p>
+            </div>
+            <!-- Token Status Widget -->
+            <div
+                class="bg-slate-100 dark:bg-white/5 p-4 rounded-xl border border-slate-200 dark:border-white/10 flex items-center gap-4 min-w-[280px]">
+                <div class="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-2xl">toll</span>
+                </div>
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Your Balance</p>
+                    <p class="text-2xl font-black text-primary">2,450 <span
+                            class="text-sm font-medium text-slate-400 ml-1">Tokens</span></p>
+                </div>
+                <div class="ml-auto text-right">
+                    <p class="text-[10px] font-bold text-emerald-500">+15% Monthly</p>
+                    <a class="text-[10px] font-bold uppercase underline hover:text-primary transition-colors"
+                        href="#">History</a>
+                </div>
+            </div>
+        </div>
+        <!-- Section 1: Official Merchandise -->
+        <section class="mb-20">
+            <div class="flex items-center justify-between mb-8">
+                <h3 class="text-2xl font-bold flex items-center gap-2">
+                    <span class="h-8 w-1 bg-primary rounded-full"></span>
+                    Official Gear
+                </h3>
+                <div class="flex gap-2">
+                    <button
+                        class="px-4 py-2 bg-slate-100 dark:bg-white/5 rounded-lg text-sm font-semibold hover:bg-primary/10 hover:text-primary transition-all">Apparel</button>
+                    <button
+                        class="px-4 py-2 bg-slate-100 dark:bg-white/5 rounded-lg text-sm font-semibold hover:bg-primary/10 hover:text-primary transition-all">Accessories</button>
+                    <button
+                        class="px-4 py-2 bg-slate-100 dark:bg-white/5 rounded-lg text-sm font-semibold hover:bg-primary/10 hover:text-primary transition-all">Limited</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Product Card 1 -->
+                <div
+                    class="group relative bg-white dark:bg-white/5 rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 transition-transform hover:-translate-y-1">
+                    <div class="aspect-square bg-slate-200 dark:bg-slate-800 relative overflow-hidden">
+                        <img alt="Merch"
+                            class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                            data-alt="High quality black t-shirt with minimalist logo"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7K4e66yoLmp2xGqk8nHJ6PWywWFq43cFXXbloZ7FLhwPDn6YtnD1OJPRnufw4Dou786K9zdfgePHXXJvD0SGPZIb6yH14lrhgyYPY-qnnrRIy6hAxM_MWh5viawjzKiOPXgDvqzc-UPJEGQWvVIE2BZ-qRMOnCu8kn9ArxYDO1jZ_SuGzKzAJCzYgR5tA2OPvtwdzvAamdTt5jIDy0qCnx8P8gjHhuzNLD6OP3xjAgcWdQ84WFOZgMLYekS3Ncbwn8wgKXSlXXNQ" />
+                        <span
+                            class="absolute top-3 right-3 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded">NEW</span>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-xs font-bold text-slate-500 uppercase mb-1">Apparel</p>
+                        <h4 class="font-bold text-lg mb-4 group-hover:text-primary transition-colors">Signature Heavy
+                            Tee</h4>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-black">$34.00</span>
+                            <button class="p-2 bg-primary rounded-lg text-white hover:bg-primary/90 transition-colors">
+                                <span class="material-symbols-outlined">add_shopping_cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product Card 2 -->
+                <div
+                    class="group relative bg-white dark:bg-white/5 rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 transition-transform hover:-translate-y-1">
+                    <div class="aspect-square bg-slate-200 dark:bg-slate-800 relative overflow-hidden">
+                        <img alt="Merch"
+                            class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                            data-alt="Premium black baseball cap with orange embroidery"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1h9SLt8nxEcmKf4tlbqhGWbhmJdkQ48Q64bRSKu-CTtDhE9UfAGF5mSNxDzYbpDNdBExJQ-X6eAfNWTzV2SW893SksRGphwKc9Sp0GVQMAkagAO5sOibLwJzFycJtELvY1PS_jR6i1c0-qoN8QN7016v1TIbzM5brc8v578nCq7etH3NHw9Uq7n4EdYxJ5-jKNsUnnF9mYKOQSVvnLE1Df-VeloHjB6iUr2MtA6tq4AyD0ZYYm-VAIjAm83dhtg52F24q_pEf3SU" />
+                    </div>
+                    <div class="p-5">
+                        <p class="text-xs font-bold text-slate-500 uppercase mb-1">Accessories</p>
+                        <h4 class="font-bold text-lg mb-4 group-hover:text-primary transition-colors">Stealth Snapback
+                        </h4>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-black">$28.00</span>
+                            <button class="p-2 bg-primary rounded-lg text-white hover:bg-primary/90 transition-colors">
+                                <span class="material-symbols-outlined">add_shopping_cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product Card 3 -->
+                <div
+                    class="group relative bg-white dark:bg-white/5 rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 transition-transform hover:-translate-y-1">
+                    <div class="aspect-square bg-slate-200 dark:bg-slate-800 relative overflow-hidden">
+                        <img alt="Merch"
+                            class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                            data-alt="Premium charcoal grey oversized hoodie"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6-7oNH1c6pRSz8mTc42YKy5dH6QHHmWGTB3x05HLCBilmFyL0FqGtXkKmMqc15Uz2oJo9tFM7-jtcezaTzzS7mHaiYUy1bjhTv4AWuiLc1tOv29ZVNQ91_-91IqSOitdneT-MD49BSFhM2rreEi2Yphkt-wokQL12H2y_mxJ5q6mqxogrFOcOncG6l2SuAIFy_mFmCh5LhRvd2bNuzlngla_l8imDrj8OjppU9sbsa2c-p5oqKMkRw-TRghlJePCOPtXSr-G1XQk" />
+                    </div>
+                    <div class="p-5">
+                        <p class="text-xs font-bold text-slate-500 uppercase mb-1">Apparel</p>
+                        <h4 class="font-bold text-lg mb-4 group-hover:text-primary transition-colors">Vapor Cloud Hoodie
+                        </h4>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-black">$65.00</span>
+                            <button class="p-2 bg-primary rounded-lg text-white hover:bg-primary/90 transition-colors">
+                                <span class="material-symbols-outlined">add_shopping_cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product Card 4 -->
+                <div
+                    class="group relative bg-white dark:bg-white/5 rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 transition-transform hover:-translate-y-1">
+                    <div class="aspect-square bg-slate-200 dark:bg-slate-800 relative overflow-hidden">
+                        <img alt="Merch"
+                            class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                            data-alt="Sleek metallic water bottle with logo"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCT60Khx73w5VTqgwULe6mjxvU7tlTieELChwn3AVht1vs6ShmFKV3r9ekg2PvztlBrY0TXBJfRtVCl3koxoHCuMn3EifhwtYm7Zzv2sPlQZyjitWx_j5SYSa09n4jcKR4gFcVBqME9qgpUrhGhrEgsdHqSdSf5OIYq1wVxHTJPLmbn9kaOjHcUa-kq2L314hL1Ky5EOrnuQCtNlaZ90JBOjjyZiqRiuRrjpoRffSPKs001TShYxgQg_kZNAanyCq36AWXUXQ__4CM" />
+                    </div>
+                    <div class="p-5">
+                        <p class="text-xs font-bold text-slate-500 uppercase mb-1">Accessories</p>
+                        <h4 class="font-bold text-lg mb-4 group-hover:text-primary transition-colors">Insulated Flask
+                            500ml</h4>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-black">$22.00</span>
+                            <button class="p-2 bg-primary rounded-lg text-white hover:bg-primary/90 transition-colors">
+                                <span class="material-symbols-outlined">add_shopping_cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Section 2: Token System / Loyalty -->
+        <section class="mb-20">
+            <div class="token-gradient rounded-3xl p-8 md:p-12 border border-primary/20 relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mr-16 -mt-16 h-64 w-64 bg-primary/10 blur-[100px] rounded-full">
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div
+                            class="inline-flex items-center gap-2 px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-black uppercase tracking-widest mb-6">
+                            <span class="material-symbols-outlined text-sm">stars</span>
+                            Exclusive Token Shop
+                        </div>
+                        <h3 class="text-4xl font-black mb-6 leading-tight">Turn your loyalty into <br /><span
+                                class="text-primary">Limited Edition</span> gear.</h3>
+                        <p class="text-slate-400 text-lg mb-8 max-w-md">Tokens are earned through every purchase and
+                            community contribution. Redeem them here for items you can't buy with cash.</p>
+                        <div class="space-y-4 mb-8">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="h-10 w-10 rounded-lg bg-white/5 flex items-center justify-center text-primary">
+                                    <span class="material-symbols-outlined">shopping_basket</span>
+                                </div>
+                                <div>
+                                    <p class="font-bold">Earn as you shop</p>
+                                    <p class="text-sm text-slate-500">5 Tokens for every $1 spent</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="h-10 w-10 rounded-lg bg-white/5 flex items-center justify-center text-primary">
+                                    <span class="material-symbols-outlined">group</span>
+                                </div>
+                                <div>
+                                    <p class="font-bold">Community Rewards</p>
+                                    <p class="text-sm text-slate-500">Earn by reviewing &amp; sharing</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            class="px-8 py-4 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">How
+                            to Earn More</button>
+                    </div>
+                    <!-- Token Product Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Token Item 1 -->
+                        <div
+                            class="bg-background-dark/60 backdrop-blur-sm p-4 rounded-2xl border border-white/5 hover:border-primary/50 transition-colors">
+                            <div class="aspect-video bg-slate-800 rounded-xl mb-4 overflow-hidden">
+                                <img alt="Exclusive" class="w-full h-full object-cover"
+                                    data-alt="Gold plated commemorative coin in velvet box"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_I9M1DSwNYnUjGfvUhct_jS2qwQ4zoylb2k5gzVT6oYQOPmvqv1smoC4cBRbmyj_PDtPH3c1NLl4-74cVPp11x2TFG-g-xUEXXQPHd_STwmDGyinLo-yoJt7e1QI0MKR-evWLqyHWcONnxDmGoSjKibJEeaHsRPDOciMlj86fUwh3n6Hg31cdM3pP8MpZEdqViEiLPSCIsoLj1zU2_88QwShoWUDYeEKPVjd4e_5ehcTHt8wQ7eFFT3feg7D8IOyCPOHOJ_w29h8" />
+                            </div>
+                            <h5 class="font-bold mb-1">Founder's Gold Pin</h5>
+                            <div class="flex items-center gap-2 text-primary">
+                                <span class="material-symbols-outlined text-sm">toll</span>
+                                <span class="text-lg font-black">1,500</span>
+                            </div>
+                            <button
+                                class="w-full mt-4 py-2 rounded-lg border border-primary text-primary text-sm font-bold hover:bg-primary hover:text-white transition-all">Redeem
+                                Now</button>
+                        </div>
+                        <!-- Token Item 2 -->
+                        <div
+                            class="bg-background-dark/60 backdrop-blur-sm p-4 rounded-2xl border border-white/5 hover:border-primary/50 transition-colors">
+                            <div class="aspect-video bg-slate-800 rounded-xl mb-4 overflow-hidden">
+                                <img alt="Exclusive" class="w-full h-full object-cover"
+                                    data-alt="Limited edition white smart watch with orange strap"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFihwuAkEHXL1sOK_xS1gYxwDXzEgd7zN0NOWWf27juE3wLqRyEnGdY4oKIOpRaozW6gEgdLOSSdUmJdcWqY73getH_Ah-SmqPtPQvC0Mp7IxdZy3_aw30DnWBst1hzjsvYUQ-8aqvBKawMmm6hehAvGnrlm5Hwroqil-92YmQyVewHSAAZfcn-LFQbSLZwOay1U9kaKAjsMpWL0o4mEH0RQ3jbevDoxz8tyW1_qhcZEYGqRLcaKxwJak0R7uorzelFVablX4az4U" />
+                            </div>
+                            <h5 class="font-bold mb-1">Stealth Carry Case</h5>
+                            <div class="flex items-center gap-2 text-primary">
+                                <span class="material-symbols-outlined text-sm">toll</span>
+                                <span class="text-lg font-black">2,200</span>
+                            </div>
+                            <button
+                                class="w-full mt-4 py-2 rounded-lg border border-primary text-primary text-sm font-bold hover:bg-primary hover:text-white transition-all">Redeem
+                                Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Tier Progress -->
+        <section class="mb-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div
+                class="md:col-span-2 bg-slate-100 dark:bg-white/5 p-8 rounded-3xl border border-slate-200 dark:border-white/10">
+                <div class="flex justify-between items-start mb-8">
+                    <div>
+                        <h4 class="text-2xl font-bold mb-2">Tier Progress</h4>
+                        <p class="text-slate-500">You are currently a <span class="text-primary font-bold">Silver
+                                Member</span></p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm font-bold text-slate-400">NEXT TIER</p>
+                        <p class="text-lg font-black">Gold Enthusiast</p>
+                    </div>
+                </div>
+                <div class="relative w-full h-4 bg-slate-200 dark:bg-white/10 rounded-full mb-4">
+                    <div class="absolute top-0 left-0 h-full bg-primary rounded-full shadow-[0_0_15px_rgba(242,127,13,0.5)]"
+                        style="width: 65%;"></div>
+                </div>
+                <div class="flex justify-between text-xs font-bold text-slate-500 uppercase tracking-widest">
+                    <span>Silver (Active)</span>
+                    <span>550 Tokens to Level Up</span>
+                    <span>Gold</span>
+                </div>
+            </div>
+            <div class="bg-primary p-8 rounded-3xl flex flex-col justify-center text-white">
+                <h4 class="text-xl font-black mb-2">Refer a Friend</h4>
+                <p class="text-white/80 text-sm mb-6">Give $10, Get 500 Tokens. The ultimate win-win for the crew.</p>
+                <button
+                    class="w-full py-3 bg-background-dark text-white font-bold rounded-xl hover:bg-background-dark/80 transition-all">Get
+                    Invite Link</button>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-slate-100 dark:bg-black/40 border-t border-slate-200 dark:border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 text-primary mb-6">
+                        <span class="material-symbols-outlined text-3xl font-bold">cloud</span>
+                        <h1 class="text-xl font-extrabold tracking-tight uppercase">Vape Co</h1>
+                    </div>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6">Elevating the culture through premium
+                        hardware and community-driven rewards.</p>
+                    <div class="flex gap-4">
+                        <a class="h-10 w-10 rounded-full bg-slate-200 dark:bg-white/5 flex items-center justify-center hover:text-primary transition-colors"
+                            href="#">
+                            <span class="material-symbols-outlined text-xl">share</span>
+                        </a>
+                        <a class="h-10 w-10 rounded-full bg-slate-200 dark:bg-white/5 flex items-center justify-center hover:text-primary transition-colors"
+                            href="#">
+                            <span class="material-symbols-outlined text-xl">public</span>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-6">Products</h5>
+                    <ul class="space-y-4 text-sm text-slate-500">
+                        <li><a class="hover:text-primary" href="#">E-Liquids</a></li>
+                        <li><a class="hover:text-primary" href="#">Vape Kits</a></li>
+                        <li><a class="hover:text-primary" href="#">Accessories</a></li>
+                        <li><a class="hover:text-primary" href="#">Bundles</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-6">Rewards</h5>
+                    <ul class="space-y-4 text-sm text-slate-500">
+                        <li><a class="hover:text-primary" href="#">Token Dashboard</a></li>
+                        <li><a class="hover:text-primary" href="#">Redeem History</a></li>
+                        <li><a class="hover:text-primary" href="#">VIP Benefits</a></li>
+                        <li><a class="hover:text-primary" href="#">Leaderboard</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-6">Newsletter</h5>
+                    <p class="text-sm text-slate-500 mb-4">Get notified about exclusive token drops and merch releases.
+                    </p>
+                    <div class="flex gap-2">
+                        <input class="bg-white dark:bg-white/5 border-none rounded-lg text-sm w-full focus:ring-primary"
+                            placeholder="Your email" type="email" />
+                        <button class="bg-primary text-white p-2 rounded-lg">
+                            <span class="material-symbols-outlined">send</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="mt-12 pt-8 border-t border-slate-200 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500 font-medium">
+                <p>© 2024 Vape Co. All rights reserved. Age verification required.</p>
+                <div class="flex gap-6">
+                    <a class="hover:text-primary" href="#">Privacy Policy</a>
+                    <a class="hover:text-primary" href="#">Terms of Service</a>
+                    <a class="hover:text-primary" href="#">Shipping Info</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

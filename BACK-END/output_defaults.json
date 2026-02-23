@@ -1,0 +1,42 @@
+[
+  {
+    "column_name": "user_id",
+    "column_default": "uuid_generate_v4()"
+  },
+  {
+    "column_name": "full_name",
+    "column_default": null
+  },
+  {
+    "column_name": "email",
+    "column_default": null
+  },
+  {
+    "column_name": "password",
+    "column_default": null
+  },
+  {
+    "column_name": "date_of_birth",
+    "column_default": null
+  },
+  {
+    "column_name": "profile_picture_url",
+    "column_default": null
+  },
+  {
+    "column_name": "receive_marketing",
+    "column_default": "false"
+  },
+  {
+    "column_name": "cookies_accepted",
+    "column_default": "false"
+  },
+  {
+    "column_name": "created_at",
+    "column_default": "CURRENT_TIMESTAMP"
+  },
+  {
+    "column_name": "updated_at",
+    "column_default": "CURRENT_TIMESTAMP"
+  }
+]
